@@ -7,6 +7,7 @@ public class SocketableComponent
     public int tier;
     public int level;
     public int watts;
+    public int wattsIncrement;
     public int MOBLevelRequirement
     {
         get
