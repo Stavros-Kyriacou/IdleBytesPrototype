@@ -26,17 +26,6 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        // cpuInventory[0,0] = 1;
-        // cpuInventory[0,1] = 2;
-        // cpuInventory[0,2] = 3;
-        // cpuInventory[0,3] = 4;
-        // cpuInventory[0,4] = 5;
-        // cpuInventory[0,5] = 6;
-        // cpuInventory[0,6] = 7;
-        // cpuInventory[0,7] = 8;
-        // cpuInventory[0,8] = 9;
-        // cpuInventory[0,9] = 10;
-
         for (int i = 0; i < this.cpuInventory.GetLength(0); i++)
         {
             for (int j = 0; j < this.cpuInventory.GetLength(1); j++)
@@ -44,28 +33,28 @@ public class Inventory : MonoBehaviour
                 this.cpuInventory[i, j] = Random.Range(1, 11);
             }
         }
-        // for (int i = 0; i < this.gpuInventory.GetLength(0); i++)
-        // {
-        //     for (int j = 0; j < this.gpuInventory.GetLength(1); j++)
-        //     {
-        //         this.gpuInventory[i, j] = Random.Range(1, 11);
-        //     }
-        // }
-        // for (int i = 0; i < this.ramInventory.GetLength(0); i++)
-        // {
-        //     for (int j = 0; j < this.ramInventory.GetLength(1); j++)
-        //     {
-        //         this.ramInventory[i, j] = Random.Range(1, 11);
-        //     }
-        // }
-        // for (int i = 0; i < this.hddInventory.GetLength(0); i++)
-        // {
-        //     for (int j = 0; j < this.hddInventory.GetLength(1); j++)
-        //     {
-        //         this.hddInventory[i, j] = Random.Range(1, 11);
-        //     }
-        // }
-        PrintInventory();
+        for (int i = 0; i < this.gpuInventory.GetLength(0); i++)
+        {
+            for (int j = 0; j < this.gpuInventory.GetLength(1); j++)
+            {
+                this.gpuInventory[i, j] = Random.Range(1, 11);
+            }
+        }
+        for (int i = 0; i < this.ramInventory.GetLength(0); i++)
+        {
+            for (int j = 0; j < this.ramInventory.GetLength(1); j++)
+            {
+                this.ramInventory[i, j] = Random.Range(1, 11);
+            }
+        }
+        for (int i = 0; i < this.hddInventory.GetLength(0); i++)
+        {
+            for (int j = 0; j < this.hddInventory.GetLength(1); j++)
+            {
+                this.hddInventory[i, j] = Random.Range(1, 11);
+            }
+        }
+        // PrintInventory();
     }
     public void PrintInventory()
     {
