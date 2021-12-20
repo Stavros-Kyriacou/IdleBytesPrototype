@@ -4,12 +4,33 @@ using UnityEngine;
 
 public class HDD : SocketableComponent
 {
-    public float offlineProductionBonus = 10;
-    public float offlineProductionBonusIncrement;
+    private float baseOfflineProdBonus = 10f;
+    public float offlineProductionBonus;
+    public float offlineProductionBonusIncrement = 1.1f;
     public HDD()
     {
         this.tier = 1;
         this.level = 1;
-        this.watts = 10;
+        this.wattsIncrement = 3;
+        this.offlineProductionBonus = this.baseOfflineProdBonus;
+        CalculateStats();
+    }
+    public void Change(int tier, int level)
+    {
+        this.tier = tier;
+        this.level = level;
+        CalculateStats();
+    }
+    public void CalculateStats()
+    {
+        this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement);
+
+        int numLoops = ((tier - 1) * 10) + (level - 1);
+        float result = this.baseOfflineProdBonus;
+        for (int i = 0; i < numLoops; i++)
+        {
+            result *= offlineProductionBonusIncrement;
+        }
+        this.offlineProductionBonus = result;
     }
 }
