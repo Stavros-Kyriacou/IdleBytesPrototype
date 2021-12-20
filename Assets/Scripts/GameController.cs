@@ -53,20 +53,4 @@ public class GameController : MonoBehaviour
             this.dollarsPerSec += c.totalDPS;
         }
     }
-    public void ScrollRect(Vector2 value)
-    {
-        Debug.Log("Scroll Rect: " + value);
-    }
-
-    //list Computers
-
-    //CalculateDollarsPerSec()
-    //loop through computer list
-    //find total dollars per sec
-
-
-
-    //on an individual computer
-    //level up()
-
 }
