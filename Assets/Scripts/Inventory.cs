@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Inventory : MonoBehaviour
 {
@@ -13,10 +14,21 @@ public class Inventory : MonoBehaviour
     public int[,] ramInventory = new int[10, 10];
     public int[,] hddInventory = new int[10, 10];
     public int[] lootBoxes = new int[5];
-    public List<Text> levelTexts;
-    public List<Image> componentImages;
+    public List<TextMeshProUGUI> levelTexts;
+    public List<Image> componentButtonImages;
     public List<Image> tierImages;
-    private int componentType = 1;
+    public List<Image> levelButtonImages;
+    public TextMeshProUGUI effectText;
+    public TextMeshProUGUI wattsText;
+    public Sprite[] componentSprites;
+    private int selectedComponent = 1;
+    private int selectedTier = 1;
+    private int selectedLevel = 1;
+    public CPU cpu = new CPU();
+    private GPU gpu = new GPU();
+    private RAM ram = new RAM();
+    private HDD hdd = new HDD();
+
     private void Awake()
     {
         if (Instance == null)
@@ -41,8 +53,13 @@ public class Inventory : MonoBehaviour
                 this.hddInventory[i, j] = Random.Range(1, 11);
             }
         }
-        SelectComponent(1);
-        SelectTier(1);
+        for (int i = 0; i < this.lootBoxes.Length; i++)
+        {
+            lootBoxes[i] = 10;
+        }
+        this.SelectComponent(1);
+        this.SelectTier(1);
+        this.SelectLevel(1);
     }
     public void PrintInventory()
     {
@@ -65,50 +82,82 @@ public class Inventory : MonoBehaviour
         {
             img.color = Color.white;
         }
-
         tierImages[tier - 1].color = Color.green;
 
-        switch (componentType)
+        this.selectedTier = tier;
+        this.UpdateText();
+    }
+    public void SelectComponent(int component)
+    {
+        foreach (var img in componentButtonImages)
+        {
+            img.color = Color.white;
+        }
+        componentButtonImages[component - 1].color = Color.green;
+
+        this.selectedComponent = component;
+        this.UpdateText();
+    }
+    public void SelectLevel(int level)
+    {
+        foreach (var img in levelButtonImages)
+        {
+            img.color = Color.white;
+        }
+        levelButtonImages[level - 1].color = Color.green;
+        this.selectedLevel = level;
+        this.UpdateText();
+    }
+    public void UpdateText()
+    {
+        switch (selectedComponent)
         {
             case 1:
                 //cpu
                 for (int i = 0; i < this.levelTexts.Count; i++)
                 {
-                    levelTexts[i].text = $"Level {i + 1}: {cpuInventory[tier - 1, i].ToString()}";
+                    levelTexts[i].text = $"x {cpuInventory[this.selectedTier - 1, i].ToString()}";
+                    levelButtonImages[i].sprite = componentSprites[0];
                 }
+                this.cpu.Change(this.selectedTier, this.selectedLevel);
+                this.effectText.text = $"Production Bonus: +{this.cpu.dollarsPerSec.ToString("F2")}/s";
+                this.wattsText.text = $"Power consumption: {this.cpu.watts}W";
                 break;
             case 2:
                 //gpu
                 for (int i = 0; i < this.levelTexts.Count; i++)
                 {
-                    levelTexts[i].text = $"Level {i + 1}: {gpuInventory[tier - 1, i].ToString()}";
+                    levelTexts[i].text = $"x {gpuInventory[this.selectedTier - 1, i].ToString()}";
+                    levelButtonImages[i].sprite = componentSprites[1];
                 }
+                this.gpu.Change(this.selectedTier, this.selectedLevel);
+                this.effectText.text = $"Production Bonus: +{this.gpu.productionBonus.ToString("F2")}/s";
+                this.wattsText.text = $"Power consumption: {this.gpu.watts}W";
                 break;
             case 3:
                 //ram
                 for (int i = 0; i < this.levelTexts.Count; i++)
                 {
-                    levelTexts[i].text = $"Level {i + 1}: {ramInventory[tier - 1, i].ToString()}";
+                    levelTexts[i].text = $"x {ramInventory[this.selectedTier - 1, i].ToString()}";
+                    levelButtonImages[i].sprite = componentSprites[2];
                 }
+                this.ram.Change(this.selectedTier, this.selectedLevel);
+                this.effectText.text = $"Production Bonus: +{this.ram.dollarsPerSec.ToString("F2")}/s";
+                this.wattsText.text = $"Power consumption: {this.ram.watts}W";
                 break;
             case 4:
                 //hdd
                 for (int i = 0; i < this.levelTexts.Count; i++)
                 {
-                    levelTexts[i].text = $"Level {i + 1}: {hddInventory[tier - 1, i].ToString()}";
+                    levelTexts[i].text = $"x {hddInventory[this.selectedTier - 1, i].ToString()}";
+                    levelButtonImages[i].sprite = componentSprites[3];
                 }
+                this.hdd.Change(this.selectedTier, this.selectedLevel);
+                this.effectText.text = $"Offline Bonus: +{this.hdd.offlineProductionBonus.ToString("F2")}/s";
+                this.wattsText.text = $"Power consumption: {this.hdd.watts}W";
                 break;
             default:
                 break;
         }
-    }
-    public void SelectComponent(int component)
-    {
-        foreach (var img in componentImages)
-        {
-            img.color = Color.white;
-        }
-        componentImages[component - 1].color = Color.green;
-        this.componentType = component;
     }
 }
