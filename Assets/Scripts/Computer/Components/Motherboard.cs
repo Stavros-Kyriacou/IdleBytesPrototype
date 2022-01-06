@@ -42,4 +42,8 @@ public class Motherboard
             this.watts += this.wattsIncrement;
         }
     }
+    public int GetNextLevelWatts()
+    {
+        return this.wattsIncrement * (this.level + 1);
+    }
 }
