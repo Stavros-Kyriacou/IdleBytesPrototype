@@ -132,9 +132,7 @@ public class LootBoxManager : MonoBehaviour
         {
             case 0:
                 rewardString = $"You rolled a tier {componentTier} CPU";
-                // Debug.Log("CPU amount before adding: " + Inventory.Instance.cpuInventory[componentTier - 1, 0]);
                 Inventory.Instance.cpuInventory[componentTier - 1, 0]++;
-                // Debug.Log("CPU amount after adding: " + Inventory.Instance.cpuInventory[componentTier - 1, 0]);
                 break;
             case 1:
                 rewardString = $"You rolled a tier {componentTier} GPU";
