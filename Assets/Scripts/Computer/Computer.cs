@@ -59,8 +59,19 @@ public class Computer : MonoBehaviour
             case 2:
                 if (GameController.Instance.dollars >= this.MOB.upgradeCost)
                 {
-                    GameController.Instance.dollars -= this.MOB.upgradeCost;
-                    this.MOB.Upgrade();
+                    if (NextLevelMob() <= this.PSU.currentWatts)
+                    {
+                        GameController.Instance.dollars -= this.MOB.upgradeCost;
+                        this.MOB.Upgrade();
+                    }
+                    else
+                    {
+                        Debug.Log("Upgrade Power Supply first, not enough power");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Not enough money to upgrade");
                 }
                 break;
             case 3:
@@ -79,6 +90,10 @@ public class Computer : MonoBehaviour
     {
         return this.MOB.watts + this.CPU.watts + this.GPU.watts + this.RAM.watts + this.HDD.watts;
     }
+    public int NextLevelMob()
+    {
+        return this.MOB.GetNextLevelWatts() + this.CPU.watts + this.GPU.watts + this.RAM.watts + this.HDD.watts;
+    }
     public void SocketComponent()
     {
         //reference to the component you want to socket
@@ -86,11 +101,11 @@ public class Computer : MonoBehaviour
 
         //get the max watts allowed by PSU
         //get the current watts of PSU
-        
+
         //if comp watts + current <= max watts
-            //socket component
+        //socket component
         //if comp watts + current > max watts
-            //cannot socket
-        
+        //cannot socket
+
     }
 }
