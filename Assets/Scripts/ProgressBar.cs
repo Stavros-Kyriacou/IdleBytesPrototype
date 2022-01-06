@@ -21,7 +21,6 @@ public class ProgressBar : MonoBehaviour
         // mask.fillAmount = fillAmount;
         // fill.color = fillColour;
         float fillAmout = (float)min / (float)max;
-        Debug.Log(fillAmout);
         mask.fillAmount = fillAmout;
     }
 }
