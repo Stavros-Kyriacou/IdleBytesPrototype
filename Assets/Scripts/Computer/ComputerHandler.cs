@@ -24,4 +24,12 @@ public class ComputerHandler : MonoBehaviour
         this.selectedComputer?.Upgrade(upgradeType);
         OnStatsChanged?.Invoke();
     }
+    public void GetFood()
+    {
+        if (selectedComputer != null)
+        {
+            var gamer = selectedComputer.GetComponent<Gamer>();
+            gamer.GetFood();
+        }
+    }
 }
