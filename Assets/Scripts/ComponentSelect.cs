@@ -8,6 +8,8 @@ public class ComponentSelect : MonoBehaviour
     public Text currentSelectionText;
     public Text numberOwnedText;
     public GameObject componentInventory;
+    public Text currentWattsText;
+    public Text mobWattsText;
     public Text CPUText;
     public Text CPUEffectText;
     public Text CPUWattsText;
@@ -76,6 +78,9 @@ public class ComponentSelect : MonoBehaviour
     }
     public void UpdateText()
     {
+        int currentWatts = this.cpu.watts + this.gpu.watts + this.ram.watts + this.hdd.watts + compHandler.selectedComputer.MOB.watts;
+        this.currentWattsText.text = $"Current Watts: {currentWatts}W/{compHandler.selectedComputer.PSU.currentWatts}W";
+        this.mobWattsText.text = $"MOB: {compHandler.selectedComputer.MOB.watts}W";
         this.currentSelectionText.text = $"Tier: {this.selectedTier}    Level: {this.selectedLevel}";
         switch (this.componentType)
         {
@@ -126,28 +131,22 @@ public class ComponentSelect : MonoBehaviour
             case 1:
                 this.selectedCPU[0] = this.selectedTier;
                 this.selectedCPU[1] = this.selectedLevel;
-                Debug.Log($"Selected CPU - Tier: {this.selectedTier}   Level:{this.selectedLevel}");
                 this.cpu.Change(this.selectedTier, this.selectedLevel);
-                Debug.Log("Watts: " + this.cpu.watts);
-                Debug.Log("$/s: " + this.cpu.dollarsPerSec);
                 break;
             case 2:
                 this.selectedGPU[0] = this.selectedTier;
                 this.selectedGPU[1] = this.selectedLevel;
                 this.gpu.Change(this.selectedTier, this.selectedLevel);
-                Debug.Log($"Selected GPU - Tier: {this.selectedTier}   Level:{this.selectedLevel}");
                 break;
             case 3:
                 this.selectedRAM[0] = this.selectedTier;
                 this.selectedRAM[1] = this.selectedLevel;
                 this.ram.Change(this.selectedTier, this.selectedLevel);
-                Debug.Log($"Selected RAM - Tier: {this.selectedTier}   Level:{this.selectedLevel}");
                 break;
             case 4:
                 this.selectedHDD[0] = this.selectedTier;
                 this.selectedHDD[1] = this.selectedLevel;
                 this.hdd.Change(this.selectedTier, this.selectedLevel);
-                Debug.Log($"Selected HDD - Tier: {this.selectedTier}   Level:{this.selectedLevel}");
                 break;
             default:
                 break;
@@ -157,11 +156,21 @@ public class ComponentSelect : MonoBehaviour
     }
     public void ApplySelection()
     {
-        this.compHandler.selectedComputer.CPU.Change(this.selectedCPU[0], this.selectedCPU[1]);
-        this.compHandler.selectedComputer.GPU.Change(this.selectedGPU[0], this.selectedGPU[1]);
-        this.compHandler.selectedComputer.RAM.Change(this.selectedRAM[0], this.selectedRAM[1]);
-        this.compHandler.selectedComputer.HDD.Change(this.selectedHDD[0], this.selectedHDD[1]);
-        GameController.Instance.CalculateDollarsPerSec();
-        computerStats.UpdateText();
+        int currentWatts = this.cpu.watts + this.gpu.watts + this.ram.watts + this.hdd.watts + compHandler.selectedComputer.MOB.watts;
+        //check if PSU has enough watts
+        if (currentWatts <= compHandler.selectedComputer.PSU.currentWatts)
+        {
+
+            this.compHandler.selectedComputer.CPU.Change(this.selectedCPU[0], this.selectedCPU[1]);
+            this.compHandler.selectedComputer.GPU.Change(this.selectedGPU[0], this.selectedGPU[1]);
+            this.compHandler.selectedComputer.RAM.Change(this.selectedRAM[0], this.selectedRAM[1]);
+            this.compHandler.selectedComputer.HDD.Change(this.selectedHDD[0], this.selectedHDD[1]);
+            GameController.Instance.CalculateDollarsPerSec();
+            computerStats.UpdateText();
+        }
+        else
+        {
+            Debug.Log("Power supply needs to be upgraded, not enough watts");
+        }
     }
 }
