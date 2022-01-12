@@ -15,7 +15,9 @@ public class MenuController : MonoBehaviour
         ComputerStats,
         ComponentSelection,
         Inventory,
-        LootBox
+        LootBox,
+        VendingMachine,
+        Workbench
     }
     private GameObject currentState;
     public GameObject closedMenu;
@@ -28,6 +30,8 @@ public class MenuController : MonoBehaviour
     public GameObject componentSelectionMenu;
     public GameObject inventory;
     public GameObject lootBoxMenu;
+    public GameObject vendingMenu;
+    public GameObject workbenchMenu;
 
     private void Awake()
     {
@@ -40,6 +44,8 @@ public class MenuController : MonoBehaviour
         componentSelectionMenu.SetActive(false);
         inventory.SetActive(false);
         lootBoxMenu.SetActive(false);
+        vendingMenu.SetActive(false);
+        workbenchMenu.SetActive(false);
     }
     public void OnMainMenu()
     {
@@ -81,6 +87,14 @@ public class MenuController : MonoBehaviour
     {
         ChangeMenu(MenuStates.LootBox);
     }
+    public void OnVending()
+    {
+        ChangeMenu(MenuStates.VendingMachine);
+    }
+    public void OnWorkBench()
+    {
+        ChangeMenu(MenuStates.Workbench);
+    }
     public void ChangeMenu(MenuStates menu)
     {
         GameObject newState = null;
@@ -116,6 +130,12 @@ public class MenuController : MonoBehaviour
                 break;
             case MenuStates.LootBox:
                 newState = this.lootBoxMenu;
+                break;
+            case MenuStates.VendingMachine:
+                newState = this.vendingMenu;
+                break;
+            case MenuStates.Workbench:
+                newState = this.workbenchMenu;
                 break;
             default:
                 break;
