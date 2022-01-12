@@ -78,10 +78,13 @@ public class ComponentSelect : MonoBehaviour
     }
     public void UpdateText()
     {
-        int currentWatts = this.cpu.watts + this.gpu.watts + this.ram.watts + this.hdd.watts + compHandler.selectedComputer.MOB.watts;
-        this.currentWattsText.text = $"Current Watts: {currentWatts}W/{compHandler.selectedComputer.PSU.currentWatts}W";
-        this.mobWattsText.text = $"MOB: {compHandler.selectedComputer.MOB.watts}W";
-        this.currentSelectionText.text = $"Tier: {this.selectedTier}    Level: {this.selectedLevel}";
+        if (compHandler.selectedComputer != null)
+        {
+            int currentWatts = this.cpu.watts + this.gpu.watts + this.ram.watts + this.hdd.watts + compHandler.selectedComputer.MOB.watts;
+            this.currentWattsText.text = $"Current Watts: {currentWatts}W/{compHandler.selectedComputer.PSU.currentWatts}W";
+            this.mobWattsText.text = $"MOB: {compHandler.selectedComputer.MOB.watts}W";
+            this.currentSelectionText.text = $"Tier: {this.selectedTier}    Level: {this.selectedLevel}";
+        }
         switch (this.componentType)
         {
             case 1:
