@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class Gamer : MonoBehaviour
 {
-    public float hunger;
+    public float Hunger
+    {
+        get
+        {
+            if (timeRemaining == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 1 - ((float)timeRemaining / (float)maxDepletionTime);
+            }
+        }
+        private set { }
+    }
     public int maxDepletionTime = 10;
     public int timeRemaining;
     public ProgressBar progressBar;
@@ -30,16 +44,13 @@ public class Gamer : MonoBehaviour
     }
     public void GetFood()
     {
-        if (timeRemaining <= 0)
-        {
-            GameController.Instance.dollars += 10000;
-            timeRemaining = maxDepletionTime;
-            progressBar.GetCurrentFill(timeRemaining, maxDepletionTime);
-            StartCoroutine("DepleteHunger");
-        }
-        else
-        {
-            Debug.Log("The gamer is not hungry enough yet");
-        }
+        StopCoroutine("DepleteHunger");
+        var money = ((GameController.Instance.dollarsPerSec / 2) * (this.maxDepletionTime - this.timeRemaining)) * VendingMachine.Instance.GetHungerBonus(this.Hunger);
+
+        GameController.Instance.dollars += money;
+
+        timeRemaining = maxDepletionTime;
+        progressBar.GetCurrentFill(timeRemaining, maxDepletionTime);
+        StartCoroutine("DepleteHunger");
     }
 }
