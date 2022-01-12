@@ -12,7 +12,6 @@ public class ComputerHandler : MonoBehaviour
     private void Awake()
     {
         this.compStats = GetComponent<ComputerStats>();
-        Debug.Log(this.compStats);
     }
     public void Select(Computer computer)
     {
