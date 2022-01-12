@@ -7,6 +7,8 @@ using TMPro;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
+    public int scrap;
+    
     //[rows, columns]
     //[tier, level]
     public int[,] cpuInventory = new int[10, 10];
@@ -47,10 +49,10 @@ public class Inventory : MonoBehaviour
         {
             for (int j = 0; j < this.cpuInventory.GetLength(1); j++)
             {
-                this.cpuInventory[i, j] = Random.Range(1, 11);
-                this.gpuInventory[i, j] = Random.Range(1, 11);
-                this.ramInventory[i, j] = Random.Range(1, 11);
-                this.hddInventory[i, j] = Random.Range(1, 11);
+                this.cpuInventory[i, j] = 1;
+                this.gpuInventory[i, j] = 1;
+                this.ramInventory[i, j] = 1;
+                this.hddInventory[i, j] = 1;
             }
         }
         for (int i = 0; i < this.lootBoxes.Length; i++)
