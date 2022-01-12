@@ -5,53 +5,73 @@ Iventory
 
 
 Computer Stat Screen
-- Make component button show the component selection Screen
 - Think of a way to show when no component is selected. Either make all the stats zero and change title to say nothing socketed, or make it blank
 
 
 
-
 Component Select Screen
-- Clicking on a component shows the inventory screen for that component
+- 
 - 
 
 
+Computers
+- Component set bonuses
+- Buy new computers, must work with wifi bandwidth
+    - Make the computer select screen
 
 
-Computer
+Workbench
+- Make the screen
+- Disassemble components
+- Upgrade components
+- Scrap costs
 
 
+Research
+- Remake the entire screen
+- Make it work with timer
 
 
+Player Profile
+- Make the screen
+- Track stats
 
 
+Wifi
+- Make the screen
+- Upgrades
 
-Motherboard
-Tier and Level
-T2 L3
-
-T2 L4
-
-
-Socket T3
-Motherboard minimum of level 30
-
-Socket T4 L9
-Minimu of level 40
-
-T5
-minimum l50
+Prestige
+- Make the screen
+- Add game reset function
+- Prestige Perk Points
 
 
-T1      1-19
-T2      20-29
-T3      30-39
-T4
-T5
-T6
-T7
-T8
-T9      90-99
-T10     100
+Daily/Weekly Challenges
+- Make it reset at correct times
+- Add progress when the correct actions are completed
+- Give rewards
 
-if MOB.level > component.MOBLevelRequirement
+Daily Logins
+- Login detection
+- GIve rewards
+
+MenuController
+- Convert all menus to a list
+- Use a loop to do everything because what we have sucks atm
+
+Boosts
+
+
+Settings
+
+
+Shop
+
+
+Ads
+
+
+Make the game 3D
+- import models
+- camera controls
