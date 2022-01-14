@@ -13,7 +13,6 @@ public class CraftingTimer : MonoBehaviour
     public int componentType;
     public int componentTier;
     public int componentLevel;
-    public string componentString;
     public bool craftComplete = false;
     public void StartCraft(int duration, int tier, int level, int type)
     {
@@ -22,25 +21,7 @@ public class CraftingTimer : MonoBehaviour
         this.componentType = type;
         this.componentTier = tier;
         this.componentLevel = level;
-        switch (this.componentType)
-        {
-            case 1:
-                componentString = "CPU";
-                break;
-            case 2:
-                componentString = "GPU";
-                break;
-            case 3:
-                componentString = "RAM";
-                break;
-            case 4:
-                componentString = "HDD";
-                break;
-            default:
-                break;
-        }
-
-        craftInfoText.text = $"Tier: {this.componentTier} {componentString}";
+        craftInfoText.text = $"Tier: {this.componentTier} {Ext.ComponentType(this.componentType)}";
         StartCoroutine("CraftTimer");
     }
     IEnumerator CraftTimer()
@@ -55,7 +36,7 @@ public class CraftingTimer : MonoBehaviour
             {
                 StopCoroutine("CraftTimer");
                 this.craftComplete = true;
-                this.craftInfoText.text = $"Tier: {this.componentTier} Level: {this.componentLevel} {componentString}";
+                this.craftInfoText.text = $"Tier: {this.componentTier} Level: {this.componentLevel} {Ext.ComponentType(this.componentType)}";
                 break;
             }
         }
