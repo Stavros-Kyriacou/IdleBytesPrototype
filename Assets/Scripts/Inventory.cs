@@ -49,10 +49,10 @@ public class Inventory : MonoBehaviour
         {
             for (int j = 0; j < this.cpuInventory.GetLength(1); j++)
             {
-                this.cpuInventory[i, j] = 1;
-                this.gpuInventory[i, j] = 1;
-                this.ramInventory[i, j] = 1;
-                this.hddInventory[i, j] = 1;
+                this.cpuInventory[i, j] = 10;
+                this.gpuInventory[i, j] = 10;
+                this.ramInventory[i, j] = 10;
+                this.hddInventory[i, j] = 10;
             }
         }
         for (int i = 0; i < this.lootBoxes.Length; i++)
