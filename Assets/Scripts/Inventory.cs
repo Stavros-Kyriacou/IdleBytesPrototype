@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
     public int scrap;
-    
+
     //[rows, columns]
     //[tier, level]
     public int[,] cpuInventory = new int[10, 10];
@@ -161,5 +161,79 @@ public class Inventory : MonoBehaviour
             default:
                 break;
         }
+    }
+    public void AddComponent(int type, int tier, int level, int amount)
+    {
+        switch (type)
+        {
+            case 1:
+                cpuInventory[tier - 1, level - 1] += amount;
+                break;
+            case 2:
+                gpuInventory[tier - 1, level - 1] += amount;
+                break;
+            case 3:
+                ramInventory[tier - 1, level - 1] += amount;
+                break;
+            case 4:
+                hddInventory[tier - 1, level - 1] += amount;
+                break;
+            default:
+                break;
+        }
+    }
+    public bool RemoveComponent(int type, int tier, int level, int amount)
+    {
+        bool validTransaction = false;
+        switch (type)
+        {
+            case 1:
+                if (amount <= cpuInventory[tier - 1, level - 1])
+                {
+                    cpuInventory[tier - 1, level - 1] -= amount;
+                    validTransaction = true;
+                }
+                else
+                {
+                    validTransaction = false;
+                }
+                break;
+            case 2:
+                if (amount <= gpuInventory[tier - 1, level - 1])
+                {
+                    gpuInventory[tier - 1, level - 1] -= amount;
+                    validTransaction = true;
+                }
+                else
+                {
+                    validTransaction = false;
+                }
+                break;
+            case 3:
+                if (amount <= ramInventory[tier - 1, level - 1])
+                {
+                    ramInventory[tier - 1, level - 1] -= amount;
+                    validTransaction = true;
+                }
+                else
+                {
+                    validTransaction = false;
+                }
+                break;
+            case 4:
+                if (amount <= hddInventory[tier - 1, level - 1])
+                {
+                    hddInventory[tier - 1, level - 1] -= amount;
+                    validTransaction = true;
+                }
+                else
+                {
+                    validTransaction = false;
+                }
+                break;
+            default:
+                break;
+        }
+        return validTransaction;
     }
 }
