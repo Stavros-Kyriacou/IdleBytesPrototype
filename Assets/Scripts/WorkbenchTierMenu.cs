@@ -57,7 +57,6 @@ public class WorkbenchTierMenu : MonoBehaviour
     public List<Image> socketButtonImages;
     public List<TextMeshProUGUI> componentAmountTexts;
     public List<TextMeshProUGUI> socketTexts;
-    public TextMeshProUGUI changeMenuButtonText;
     public TextMeshProUGUI scrapCostText;
     public TextMeshProUGUI craftingTimeText;
     public TextMeshProUGUI scrapText;
@@ -67,7 +66,6 @@ public class WorkbenchTierMenu : MonoBehaviour
     public List<CraftingTimer> craftingTimers;
     private void OnEnable()
     {
-        changeMenuButtonText.text = "Upgrade Component Levels";
         this.SelectComponent(1);
         currentCraftsMenu.anchoredPosition = 600 * Vector2.up;
     }
