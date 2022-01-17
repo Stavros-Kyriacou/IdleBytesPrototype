@@ -65,7 +65,7 @@ public class WorkbenchLevelMenu : MonoBehaviour
     }
     public void UpdateText()
     {
-        if (this.selectedTier != 0 && this.selectedLevel != 0)
+        if (this.selectedTier != 0 && this.selectedComponent != 0)
         {
             string componentString = "";
             switch (selectedComponent)
