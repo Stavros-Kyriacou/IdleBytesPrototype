@@ -1,6 +1,6 @@
 Iventory
-- Method to add Component
-- Method to remove Component
+- Show individual scrap amount for deconstruction
+- Add quick scrap button
 
 
 
