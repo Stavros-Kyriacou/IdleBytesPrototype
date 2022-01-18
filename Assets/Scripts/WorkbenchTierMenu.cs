@@ -181,22 +181,29 @@ public class WorkbenchTierMenu : MonoBehaviour
 
         if (selectedTier > 0 && selectedTier < 11 && selectedSocket != 0)
         {
-            switch (selectedComponent)
+            if (selectedTier != 10)
             {
-                case 1:
-                    SocketComponent("CPU", Inventory.Instance.cpuInventory);
-                    break;
-                case 2:
-                    SocketComponent("GPU", Inventory.Instance.gpuInventory);
-                    break;
-                case 3:
-                    SocketComponent("RAM", Inventory.Instance.ramInventory);
-                    break;
-                case 4:
-                    SocketComponent("HDD", Inventory.Instance.hddInventory);
-                    break;
-                default:
-                    break;
+                switch (selectedComponent)
+                {
+                    case 1:
+                        SocketComponent("CPU", Inventory.Instance.cpuInventory);
+                        break;
+                    case 2:
+                        SocketComponent("GPU", Inventory.Instance.gpuInventory);
+                        break;
+                    case 3:
+                        SocketComponent("RAM", Inventory.Instance.ramInventory);
+                        break;
+                    case 4:
+                        SocketComponent("HDD", Inventory.Instance.hddInventory);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Debug.Log("You cannot upgrade Tier 10 components");
             }
         }
         else
