@@ -22,6 +22,8 @@ public class CraftingTimer : MonoBehaviour
         this.componentTier = tier;
         this.componentLevel = level;
         craftInfoText.text = $"Tier: {this.componentTier} {Ext.ComponentType(this.componentType)}";
+        TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
+        timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
         StartCoroutine("CraftTimer");
     }
     IEnumerator CraftTimer()
