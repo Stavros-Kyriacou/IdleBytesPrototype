@@ -136,7 +136,8 @@ public class WorkbenchTierMenu : MonoBehaviour
             //deselect socket
             this.selectedSocket = 0;
             socketButtonImages[index - 1].color = Color.white;
-            levelButtonImages[selectedLevel - 1].color = Color.white;
+            if (selectedLevel != 0)
+                levelButtonImages[selectedLevel - 1].color = Color.white;
         }
         else
         {
