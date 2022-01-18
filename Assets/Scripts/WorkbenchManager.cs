@@ -55,6 +55,6 @@ public class WorkbenchManager : MonoBehaviour
     }
     public void UpdateText()
     {
-        scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+        scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
     }
 }
