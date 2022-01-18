@@ -7,7 +7,8 @@ using TMPro;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
-    public int scrap;
+    public int Scrap;
+    public int Gems;
 
     //[rows, columns]
     //[tier, level]
