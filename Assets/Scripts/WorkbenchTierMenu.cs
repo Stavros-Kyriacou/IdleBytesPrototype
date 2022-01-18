@@ -8,12 +8,19 @@ using System;
 
 public class WorkbenchTierMenu : MonoBehaviour
 {
-    public List<UpgradeWeight> upgradeWeights = new List<UpgradeWeight>();
-    public int selectedComponent = 1;
-    public int selectedTier;
-    public int selectedLevel;
-    public int selectedSocket;
-    public int[,] craftingComponents = new int[5, 3];
+    private int selectedSocket;
+    private int[,] craftingComponents = new int[5, 3]; //Rows: Tier, Level, ComponentType
+    private List<UpgradeWeight> upgradeWeights = new List<UpgradeWeight>();
+    public List<Image> socketButtonImages;
+    public List<TextMeshProUGUI> socketTexts;
+    public TextMeshProUGUI scrapCostText;
+    public TextMeshProUGUI craftingTimeText;
+    public List<ProgressBar> progressBars;
+    public List<TextMeshProUGUI> chanceTexts;
+    public RectTransform currentCraftsMenu;
+    public ComponentInventory ComponentInventory;
+    public WorkbenchManager WorkbenchManager;
+    public List<CraftingTimer> craftingTimers;
     public bool AllSocketed
     {
         get
@@ -51,28 +58,6 @@ public class WorkbenchTierMenu : MonoBehaviour
         }
         private set { }
     }
-    public List<Image> componentButtonImages;
-    public List<Image> tierButtonImages;
-    public List<Image> levelButtonImages;
-    public List<Image> socketButtonImages;
-    public List<TextMeshProUGUI> componentAmountTexts;
-    public List<TextMeshProUGUI> socketTexts;
-    public TextMeshProUGUI scrapCostText;
-    public TextMeshProUGUI craftingTimeText;
-    public TextMeshProUGUI scrapText;
-    public List<ProgressBar> progressBars;
-    public List<TextMeshProUGUI> chanceTexts;
-    public RectTransform currentCraftsMenu;
-    public List<CraftingTimer> craftingTimers;
-    private void OnEnable()
-    {
-        this.SelectComponent(1);
-        currentCraftsMenu.anchoredPosition = 1000 * Vector2.up;
-    }
-    private void OnDisable()
-    {
-        ClearSockets();
-    }
     private void Awake()
     {
         var dataset = Resources.Load<TextAsset>("UpgradeWeights");
@@ -87,68 +72,25 @@ public class WorkbenchTierMenu : MonoBehaviour
     }
     private void Start()
     {
-        scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
-    }
-
-    public void SelectComponent(int index)
-    {
-        foreach (var img in componentButtonImages)
-        {
-            img.color = Color.white;
-        }
-        componentButtonImages[index - 1].color = Color.green;
-
-        this.selectedComponent = index;
-        if (selectedTier > 0 && selectedLevel > 0)
-        {
-            UpdateText();
-        }
-    }
-    public void SelectTier(int index)
-    {
-        foreach (var img in tierButtonImages)
-        {
-            img.color = Color.white;
-        }
-        tierButtonImages[index - 1].color = Color.green;
-
-        this.selectedTier = index;
-        UpdateText();
-    }
-    public void SelectLevel(int level)
-    {
-        foreach (var img in levelButtonImages)
-        {
-            img.color = Color.white;
-        }
-        levelButtonImages[level - 1].color = Color.green;
-
-        this.selectedLevel = level;
-        if (selectedTier > 0)
-        {
-            UpdateText();
-        }
+        currentCraftsMenu.anchoredPosition = 1000 * Vector2.up;
     }
     public void SelectSocket(int index)
     {
         if (this.selectedSocket == index)
         {
-            //deselect socket
+            //when clicking the same already selected socket, select it
             this.selectedSocket = 0;
             socketButtonImages[index - 1].color = Color.white;
-            if (selectedLevel != 0)
-                levelButtonImages[selectedLevel - 1].color = Color.white;
+            ComponentInventory.DeselectLevel();
         }
         else
         {
+            //select the new socket
             foreach (var img in socketButtonImages)
             {
                 img.color = Color.white;
             }
-            foreach (var img in levelButtonImages)
-            {
-                img.color = Color.white;
-            }
+            ComponentInventory.DeselectLevel();
             socketButtonImages[index - 1].color = Color.green;
 
             this.selectedSocket = index;
@@ -156,61 +98,32 @@ public class WorkbenchTierMenu : MonoBehaviour
     }
     public void ConfirmCraftingComponent()
     {
-        //IDEA
-        //Change how items are taken from the inventory
-        //Don't remove components from the inventory untill you press the craft button
-        //This could be useful in the future if we encounter any errors with the current system
-
-        //TODO: check if component inventory > 0                                                                                COMPLETE
-        //TODO: check if the current tier/level component has already been selected                                             COMPLETE
-        //TODO: add ability to replace the selected component with another                                                      COMPLETE
-        //TODO: add reset all button                                                                                            COMPLETE
-        //TODO: only allow components of same type and tier to be socketed                                                      COMPLETE
-        //TODO: reset all sockets when closing the workbench                                                                    COMPLETE                     
-        //TODO: add ability to deselect socket                                                                                  COMPLETE                                   
-        //TODO: when selecting the same component level, unsocket the component and deselected the button                       NOT NEEDED
-        //TODO: update crafting outcome percentages                                                                             COMPLETE
-        //TODO: make the craft button work with dynamic scrap cost based on all component levels
-        //TODO: crafting time
-        //TODO: can only socket up to tier 9 components
-        //TODO: allow for multiple upgrades at the same time
-
-
-
-
-
-        if (selectedTier > 0 && selectedTier < 11 && selectedSocket != 0)
+        if (ComponentInventory.SelectedTier > 0 && ComponentInventory.SelectedTier < 10 && selectedSocket != 0)
         {
-            if (selectedTier != 10)
+            //if a Tier 1-9 component and Socket is selected
+            switch (ComponentInventory.SelectedComponent)
             {
-                switch (selectedComponent)
-                {
-                    case 1:
-                        SocketComponent("CPU", Inventory.Instance.cpuInventory);
-                        break;
-                    case 2:
-                        SocketComponent("GPU", Inventory.Instance.gpuInventory);
-                        break;
-                    case 3:
-                        SocketComponent("RAM", Inventory.Instance.ramInventory);
-                        break;
-                    case 4:
-                        SocketComponent("HDD", Inventory.Instance.hddInventory);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                Debug.Log("You cannot upgrade Tier 10 components");
+                case 1:
+                    SocketComponent("CPU", Inventory.Instance.cpuInventory);
+                    break;
+                case 2:
+                    SocketComponent("GPU", Inventory.Instance.gpuInventory);
+                    break;
+                case 3:
+                    SocketComponent("RAM", Inventory.Instance.ramInventory);
+                    break;
+                case 4:
+                    SocketComponent("HDD", Inventory.Instance.hddInventory);
+                    break;
+                default:
+                    break;
             }
         }
         else
         {
             Debug.Log("You must select a socket and tier first");
         }
-        UpdateText();
+        ComponentInventory.UpdateText();
     }
     public void SocketComponent(string type, int[,] componentInventory)
     {
@@ -242,18 +155,10 @@ public class WorkbenchTierMenu : MonoBehaviour
             socketTexts[selectedSocket - 1].text = "Tier: " + craftingComponents[selectedSocket - 1, 0] + "\nLevel: " + craftingComponents[selectedSocket - 1, 1] + "\nType: " + type;
         }
 
-        //only socket the component if there is one in the inventory
-        if (componentInventory[selectedTier - 1, selectedLevel - 1] >= 1)
+        //Only allow component to be socketed if its availablie in inventory
+        if (componentInventory[ComponentInventory.SelectedTier - 1, ComponentInventory.SelectedLevel - 1] >= 1)
         {
-            //check if the component type and tier is the same as all other socketed components
-            //loop through craftingComponents
-            //check if the component type matches
-
-            //if all of the component types = 0
-            //allow any type of component to be socketed
-            //else
-            //make sure that it matches all other socketed components
-
+            //Check if a component has been socketed, if it has record what tier it was
             bool componentSocketed = false;
             int tierSocketed = 0;
             for (int i = 0; i < craftingComponents.GetLength(0); i++)
@@ -272,15 +177,15 @@ public class WorkbenchTierMenu : MonoBehaviour
             if (!componentSocketed)
             {
                 //if a component hasnt been socketed yet, allow any type to be socketed
-                craftingComponents[selectedSocket - 1, 0] = selectedTier;
-                craftingComponents[selectedSocket - 1, 1] = selectedLevel;
-                craftingComponents[selectedSocket - 1, 2] = selectedComponent;
+                craftingComponents[selectedSocket - 1, 0] = ComponentInventory.SelectedTier;
+                craftingComponents[selectedSocket - 1, 1] = ComponentInventory.SelectedLevel;
+                craftingComponents[selectedSocket - 1, 2] = ComponentInventory.SelectedComponent;
                 socketTexts[selectedSocket - 1].text = "Tier: " + craftingComponents[selectedSocket - 1, 0] + "\nLevel: " + craftingComponents[selectedSocket - 1, 1] + "\nType: " + type;
-                componentInventory[selectedTier - 1, selectedLevel - 1]--;
+                componentInventory[ComponentInventory.SelectedTier - 1, ComponentInventory.SelectedLevel - 1]--;
             }
             else
             {
-                //check what type of component is already socketed
+                //If a component is socketed already, record its type
                 int socketedComponentType = 0;
                 for (int i = 0; i < craftingComponents.GetLength(0); i++)
                 {
@@ -290,14 +195,15 @@ public class WorkbenchTierMenu : MonoBehaviour
                         break;
                     }
                 }
-                //only allow it to be socketed if it matches
-                if (selectedComponent == socketedComponentType && selectedTier == tierSocketed)
+
+                //Only socket it if its Type and Tier matches the other socketed components
+                if (ComponentInventory.SelectedComponent == socketedComponentType && ComponentInventory.SelectedTier == tierSocketed)
                 {
-                    craftingComponents[selectedSocket - 1, 0] = selectedTier;
-                    craftingComponents[selectedSocket - 1, 1] = selectedLevel;
-                    craftingComponents[selectedSocket - 1, 2] = selectedComponent;
+                    craftingComponents[selectedSocket - 1, 0] = ComponentInventory.SelectedTier;
+                    craftingComponents[selectedSocket - 1, 1] = ComponentInventory.SelectedLevel;
+                    craftingComponents[selectedSocket - 1, 2] = ComponentInventory.SelectedComponent;
                     socketTexts[selectedSocket - 1].text = "Tier: " + craftingComponents[selectedSocket - 1, 0] + "\nLevel: " + craftingComponents[selectedSocket - 1, 1] + "\nType: " + type;
-                    componentInventory[selectedTier - 1, selectedLevel - 1]--;
+                    componentInventory[ComponentInventory.SelectedTier - 1, ComponentInventory.SelectedLevel - 1]--;
                 }
                 else
                 {
@@ -316,32 +222,13 @@ public class WorkbenchTierMenu : MonoBehaviour
     }
     public void ClearSockets()
     {
-        //add all components in sockets back to inventories
+        //Add all components in sockets back to inventories
         for (int i = 0; i < craftingComponents.GetLength(0); i++)
         {
-            if (craftingComponents[i, 0] != 0 && craftingComponents[i, 1] != 0)
-            {
-                switch (craftingComponents[i, 2])
-                {
-                    case 1:
-                        Inventory.Instance.cpuInventory[craftingComponents[i, 0] - 1, craftingComponents[i, 1] - 1]++;
-                        break;
-                    case 2:
-                        Inventory.Instance.gpuInventory[craftingComponents[i, 0] - 1, craftingComponents[i, 1] - 1]++;
-                        break;
-                    case 3:
-                        Inventory.Instance.ramInventory[craftingComponents[i, 0] - 1, craftingComponents[i, 1] - 1]++;
-                        break;
-                    case 4:
-                        Inventory.Instance.hddInventory[craftingComponents[i, 0] - 1, craftingComponents[i, 1] - 1]++;
-                        break;
-                    default:
-                        break;
-                }
-            }
+            Inventory.Instance.AddComponent(craftingComponents[i, 2], craftingComponents[i, 0], craftingComponents[i, 1], 1);
         }
 
-        //reset craftingComponents[]
+        //Reset craftingComponents[]
         craftingComponents = new int[5, 3];
 
         //reset socketTexts
@@ -350,47 +237,8 @@ public class WorkbenchTierMenu : MonoBehaviour
             socketTexts[i].text = "Tier: 0\nLevel:0\nType:";
         }
         ResetCraftInfo();
-        UpdateText();
-    }
-    public void UpdateText()
-    {
-        switch (selectedComponent)
-        {
-            case 1:
-                //cpu
-                for (int i = 0; i < this.componentAmountTexts.Count; i++)
-                {
-                    if (this.selectedTier != 0)
-                        componentAmountTexts[i].text = $"x {Inventory.Instance.cpuInventory[this.selectedTier - 1, i].ToString()}";
-                }
-                break;
-            case 2:
-                //gpu
-                for (int i = 0; i < this.componentAmountTexts.Count; i++)
-                {
-                    if (this.selectedTier != 0)
-                        componentAmountTexts[i].text = $"x {Inventory.Instance.gpuInventory[this.selectedTier - 1, i].ToString()}";
-                }
-                break;
-            case 3:
-                //ram
-                for (int i = 0; i < this.componentAmountTexts.Count; i++)
-                {
-                    if (this.selectedTier != 0)
-                        componentAmountTexts[i].text = $"x {Inventory.Instance.ramInventory[this.selectedTier - 1, i].ToString()}";
-                }
-                break;
-            case 4:
-                //hdd
-                for (int i = 0; i < this.componentAmountTexts.Count; i++)
-                {
-                    if (this.selectedTier != 0)
-                        componentAmountTexts[i].text = $"x {Inventory.Instance.hddInventory[this.selectedTier - 1, i].ToString()}";
-                }
-                break;
-            default:
-                break;
-        }
+        ComponentInventory.DeselectLevel();
+        ComponentInventory.UpdateText();
     }
     public void UpdateCraftingPercentages()
     {
@@ -423,14 +271,6 @@ public class WorkbenchTierMenu : MonoBehaviour
 
         if (AllSocketed)
         {
-            //check if you have enough scrap
-            //subtract cost from inventory
-            //clear crafting sockets
-            //start crafting timer
-            //option to cancel crafting
-
-            //once timer is finished
-            //add new component to inventory
             if (Inventory.Instance.Scrap >= ScrapCost)
             {
                 int craftDuration = 5 * craftingComponents[0, 0];
@@ -440,12 +280,14 @@ public class WorkbenchTierMenu : MonoBehaviour
                 Debug.Log($"Craft tier: {craftTier}, Craft Level: {craftLevel}, Craft Type: {craftType}");
 
                 Inventory.Instance.Scrap -= ScrapCost;
-                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
+                WorkbenchManager.UpdateScrapText();
 
                 DeleteComponents();
                 ResetCraftInfo();
 
                 craftingTimers[0].StartCraft(craftDuration, craftTier, craftLevel, craftType);
+                ComponentInventory.DeselectLevel();
+                ComponentInventory.UpdateText();
             }
             else
             {
@@ -467,7 +309,7 @@ public class WorkbenchTierMenu : MonoBehaviour
         {
             socketTexts[i].text = "Tier: 0\nLevel:0\nType:";
         }
-        UpdateText();
+        // UpdateText();
     }
     public int RollWeights(List<int> weights)
     {
@@ -517,8 +359,4 @@ public class WorkbenchTierMenu : MonoBehaviour
         }
         craftingTimeText.text = "00:00:00";
     }
-}
-public class UpgradeWeight
-{
-    public List<int> weights;
 }
