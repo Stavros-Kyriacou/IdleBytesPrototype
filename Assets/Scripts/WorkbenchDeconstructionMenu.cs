@@ -170,7 +170,7 @@ public class WorkbenchDeconstructionMenu : MonoBehaviour
     }
     public void Deconstruct()
     {
-        Inventory.Instance.scrap += CalculateScrapAmount();
+        Inventory.Instance.Scrap += CalculateScrapAmount();
         ResetList();
         UpdateText();
     }
