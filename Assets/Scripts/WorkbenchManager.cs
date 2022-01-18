@@ -14,9 +14,10 @@ public class WorkbenchManager : MonoBehaviour
     public List<Image> menuButtonImages;
     public TextMeshProUGUI scrapText;
 
-    private void OnEnable()
+    private void Start()
     {
         ChangeMenu(1);
+        UpdateScrapText();
     }
     public void ChangeMenu(int index)
     {
@@ -53,7 +54,7 @@ public class WorkbenchManager : MonoBehaviour
                 break;
         }
     }
-    public void UpdateText()
+    public void UpdateScrapText()
     {
         scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
     }
