@@ -116,7 +116,7 @@ public class WorkbenchLevelMenu : MonoBehaviour
         {
             if (selectedLevel < 10)
             {
-                if (Inventory.Instance.scrap >= ScrapCost)
+                if (Inventory.Instance.Scrap >= ScrapCost)
                 {
                     //subtract scrap cost
                     //update scrap text
@@ -133,8 +133,8 @@ public class WorkbenchLevelMenu : MonoBehaviour
                             {
                                 Inventory.Instance.cpuInventory[tier - 1, level - 1]--;
                                 Inventory.Instance.cpuInventory[tier - 1, level]++;
-                                Inventory.Instance.scrap -= ScrapCost;
-                                scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+                                Inventory.Instance.Scrap -= ScrapCost;
+                                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
                             }
                             else
                             {
@@ -146,8 +146,8 @@ public class WorkbenchLevelMenu : MonoBehaviour
                             {
                                 Inventory.Instance.gpuInventory[tier - 1, level - 1]--;
                                 Inventory.Instance.gpuInventory[tier - 1, level]++;
-                                Inventory.Instance.scrap -= ScrapCost;
-                                scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+                                Inventory.Instance.Scrap -= ScrapCost;
+                                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
                             }
                             else
                             {
@@ -159,8 +159,8 @@ public class WorkbenchLevelMenu : MonoBehaviour
                             {
                                 Inventory.Instance.ramInventory[tier - 1, level - 1]--;
                                 Inventory.Instance.ramInventory[tier - 1, level]++;
-                                Inventory.Instance.scrap -= ScrapCost;
-                                scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+                                Inventory.Instance.Scrap -= ScrapCost;
+                                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
                             }
                             else
                             {
@@ -172,8 +172,8 @@ public class WorkbenchLevelMenu : MonoBehaviour
                             {
                                 Inventory.Instance.hddInventory[tier - 1, level - 1]--;
                                 Inventory.Instance.hddInventory[tier - 1, level]++;
-                                Inventory.Instance.scrap -= ScrapCost;
-                                scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+                                Inventory.Instance.Scrap -= ScrapCost;
+                                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
                             }
                             else
                             {
