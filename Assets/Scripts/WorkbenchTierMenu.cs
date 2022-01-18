@@ -67,7 +67,7 @@ public class WorkbenchTierMenu : MonoBehaviour
     private void OnEnable()
     {
         this.SelectComponent(1);
-        currentCraftsMenu.anchoredPosition = 600 * Vector2.up;
+        currentCraftsMenu.anchoredPosition = 1000 * Vector2.up;
     }
     private void OnDisable()
     {
@@ -87,7 +87,7 @@ public class WorkbenchTierMenu : MonoBehaviour
     }
     private void Start()
     {
-        scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+        scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
     }
 
     public void SelectComponent(int index)
@@ -431,7 +431,7 @@ public class WorkbenchTierMenu : MonoBehaviour
 
             //once timer is finished
             //add new component to inventory
-            if (Inventory.Instance.scrap >= ScrapCost)
+            if (Inventory.Instance.Scrap >= ScrapCost)
             {
                 int craftDuration = 5 * craftingComponents[0, 0];
                 int craftTier = craftingComponents[0, 0] + 1;
@@ -439,8 +439,8 @@ public class WorkbenchTierMenu : MonoBehaviour
                 int craftType = craftingComponents[0, 2];
                 Debug.Log($"Craft tier: {craftTier}, Craft Level: {craftLevel}, Craft Type: {craftType}");
 
-                Inventory.Instance.scrap -= ScrapCost;
-                scrapText.text = $"Scrap: {Inventory.Instance.scrap}";
+                Inventory.Instance.Scrap -= ScrapCost;
+                scrapText.text = $"Scrap: {Inventory.Instance.Scrap}";
 
                 DeleteComponents();
                 ResetCraftInfo();
@@ -501,7 +501,7 @@ public class WorkbenchTierMenu : MonoBehaviour
     {
         if (currentCraftsMenu.anchoredPosition == Vector2.zero)
         {
-            currentCraftsMenu.anchoredPosition = Vector2.up * 600;
+            currentCraftsMenu.anchoredPosition = Vector2.up * 1000;
         }
         else
         {
