@@ -86,9 +86,9 @@ public class ComponentInventory : MonoBehaviour
             else
             {
                 //if a new button is pressed, select it, deselecct previous
-                componentButtonImages[index -1].color = Color.green;
+                componentButtonImages[index - 1].color = Color.green;
                 this.previousComponentImage.color = Color.white;
-                this.previousComponentImage = componentButtonImages[index -1];
+                this.previousComponentImage = componentButtonImages[index - 1];
                 this.SelectedComponent = index;
             }
         }
@@ -133,9 +133,9 @@ public class ComponentInventory : MonoBehaviour
             else
             {
                 //if a new button is pressed, select it, deselecct previous
-                tierButtonImages[index -1].color = Color.green;
+                tierButtonImages[index - 1].color = Color.green;
                 this.previousTierImage.color = Color.white;
-                this.previousTierImage = tierButtonImages[index -1];
+                this.previousTierImage = tierButtonImages[index - 1];
                 this.SelectedTier = index;
             }
         }
@@ -180,9 +180,9 @@ public class ComponentInventory : MonoBehaviour
             else
             {
                 //if a new button is pressed, select it, deselecct previous
-                levelButtonImages[index -1].color = Color.green;
+                levelButtonImages[index - 1].color = Color.green;
                 this.previousLevelImage.color = Color.white;
-                this.previousLevelImage = levelButtonImages[index -1];
+                this.previousLevelImage = levelButtonImages[index - 1];
                 this.SelectedLevel = index;
             }
         }
@@ -240,6 +240,30 @@ public class ComponentInventory : MonoBehaviour
                     break;
             }
         }
+    }
+    public void DeselectComponent()
+    {
+        this.SelectedComponent = 0;
+        if (this.previousComponentImage != null)
+            this.previousComponentImage.color = Color.white;
+    }
+    public void DeselectTier()
+    {
+        this.SelectedTier = 0;
+        if (this.previousTierImage != null)
+            this.previousTierImage.color = Color.white;
+    }
+    public void DeselectLevel()
+    {
+        this.SelectedLevel = 0;
+        if (this.previousLevelImage != null)
+            this.previousLevelImage.color = Color.white;
+    }
+    public void DeselectAll()
+    {
+        DeselectComponent();
+        DeselectTier();
+        DeselectLevel();
     }
     public void PrintSelection()
     {
