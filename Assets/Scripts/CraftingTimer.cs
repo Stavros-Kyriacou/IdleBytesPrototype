@@ -1,19 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System;
 
 public class CraftingTimer : MonoBehaviour
 {
-    public TextMeshProUGUI timeRemainingText;
-    public TextMeshProUGUI craftInfoText;
-    public int craftTime;
-    public int timeRemaining;
-    public int componentType;
-    public int componentTier;
-    public int componentLevel;
-    public bool craftComplete = false;
+    [SerializeField]
+    private TextMeshProUGUI timeRemainingText;
+    [SerializeField]
+    private TextMeshProUGUI craftInfoText;
+    [SerializeField]
+    private Image collectButtonImage;
+    private int craftTime;
+    private int timeRemaining;
+    private int componentType;
+    private int componentTier;
+    private int componentLevel;
+    private bool craftComplete;
+    private bool timerAvailable = true;
+    public bool TimerAvailable
+    {
+        get
+        {
+            return this.timerAvailable;
+        }
+    }
+    
     public void StartCraft(int duration, int tier, int level, int type)
     {
         this.craftTime = duration;
@@ -21,6 +35,8 @@ public class CraftingTimer : MonoBehaviour
         this.componentType = type;
         this.componentTier = tier;
         this.componentLevel = level;
+        this.craftComplete = false;
+        this.timerAvailable = false;
         craftInfoText.text = $"Tier: {this.componentTier} {Ext.ComponentType(this.componentType)}";
         TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
         timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
@@ -38,6 +54,7 @@ public class CraftingTimer : MonoBehaviour
             {
                 StopCoroutine("CraftTimer");
                 this.craftComplete = true;
+                this.collectButtonImage.color = Color.green;
                 this.craftInfoText.text = $"Tier: {this.componentTier} Level: {this.componentLevel} {Ext.ComponentType(this.componentType)}";
                 break;
             }
@@ -47,25 +64,10 @@ public class CraftingTimer : MonoBehaviour
     {
         if (this.craftComplete)
         {
-            //collect
-            switch (this.componentType)
-            {
-                case 1:
-                    Inventory.Instance.cpuInventory[this.componentTier - 1, this.componentLevel - 1]++;
-                    break;
-                case 2:
-                    Inventory.Instance.gpuInventory[this.componentTier - 1, this.componentLevel - 1]++;
-                    break;
-                case 3:
-                    Inventory.Instance.ramInventory[this.componentTier - 1, this.componentLevel - 1]++;
-                    break;
-                case 4:
-                    Inventory.Instance.hddInventory[this.componentTier - 1, this.componentLevel - 1]++;
-                    break;
-                default:
-                    break;
-            }
+            Debug.Log($"Tier: {this.componentTier} Level: {this.componentLevel} {Ext.ComponentType(this.componentType)} added to inventory!");
+            Inventory.Instance.AddComponent(this.componentType, this.componentTier, this.componentLevel, 1);
             ResetTimer();
+            this.timerAvailable = true;
         }
         else
         {
@@ -74,17 +76,17 @@ public class CraftingTimer : MonoBehaviour
     }
     public void CompleteNow()
     {
-        //must pay premium currency
         Debug.Log("You must pay $300 :)");
     }
     public void ResetTimer()
     {
-        this.craftComplete = false;
         this.craftTime = 0;
         this.timeRemaining = 0;
         this.componentType = 0;
         this.componentTier = 0;
         this.componentLevel = 0;
         this.craftInfoText.text = "Craft Info";
+        this.timeRemainingText.text = "Timer Remaining: 00:00:00";
+        this.collectButtonImage.color = Color.white;
     }
 }
