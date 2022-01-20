@@ -275,19 +275,29 @@ public class WorkbenchTierMenu : MonoBehaviour
             {
                 int craftDuration = 5 * craftingComponents[0, 0];
                 int craftTier = craftingComponents[0, 0] + 1;
-                int craftLevel = RollWeights(upgradeWeights[TotalSocketedLevel - 1].weights) + 1;
+                int craftLevel = Ext.RollWeights(upgradeWeights[TotalSocketedLevel - 1].weights) + 1;
                 int craftType = craftingComponents[0, 2];
-                Debug.Log($"Craft tier: {craftTier}, Craft Level: {craftLevel}, Craft Type: {craftType}");
 
-                Inventory.Instance.Scrap -= ScrapCost;
-                WorkbenchManager.UpdateScrapText();
+                var availableTimer = FindAvailableCraftTimer();
 
-                DeleteComponents();
-                ResetCraftInfo();
+                if (availableTimer != null)
+                {
+                    Debug.Log($"Craft tier: {craftTier}, Craft Level: {craftLevel}, Craft Type: {craftType}");
 
-                craftingTimers[0].StartCraft(craftDuration, craftTier, craftLevel, craftType);
-                ComponentInventory.DeselectLevel();
-                ComponentInventory.UpdateText();
+                    Inventory.Instance.Scrap -= ScrapCost;
+                    WorkbenchManager.UpdateScrapText();
+
+                    DeleteComponents();
+                    ResetCraftInfo();
+
+                    availableTimer.StartCraft(craftDuration, craftTier, craftLevel, craftType);
+                    ComponentInventory.DeselectLevel();
+                    ComponentInventory.UpdateText();
+                }
+                else
+                {
+                    Debug.Log("No craft slot available");
+                }
             }
             else
             {
@@ -298,6 +308,17 @@ public class WorkbenchTierMenu : MonoBehaviour
         {
             Debug.Log("Must have 5 components socketed to craft");
         }
+    }
+    public CraftingTimer FindAvailableCraftTimer()
+    {
+        for (int i = 0; i < craftingTimers.Count; i++)
+        {
+            if (craftingTimers[i].TimerAvailable)
+            {
+                return craftingTimers[i];
+            }
+        }
+        return null;
     }
     public void DeleteComponents()
     {
@@ -310,34 +331,6 @@ public class WorkbenchTierMenu : MonoBehaviour
             socketTexts[i].text = "Tier: 0\nLevel:0\nType:";
         }
         // UpdateText();
-    }
-    public int RollWeights(List<int> weights)
-    {
-        //Takes an array of item weights and makes a roll on the loot table
-        //Returns the index of the item rolled in the array
-        int total = 0;
-        int index = 0;
-
-        foreach (var weight in weights)
-        {
-            total += weight;
-        }
-
-        int roll = UnityEngine.Random.Range(0, total + 1);
-
-        for (int i = 0; i < weights.Count; i++)
-        {
-            if (roll <= weights[i])
-            {
-                index = i;
-                break;
-            }
-            else
-            {
-                roll -= weights[i];
-            }
-        }
-        return index;
     }
     public void ToggleCraftsMenu()
     {
