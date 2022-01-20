@@ -323,12 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeRemainingText: {fileID: 5784507058464937385}
   craftInfoText: {fileID: 5784507058083941367}
-  craftTime: 0
-  timeRemaining: 0
-  componentType: 0
-  componentTier: 0
-  componentLevel: 0
-  craftComplete: 0
+  collectButtonImage: {fileID: 5784507059034696143}
 --- !u!1 &5784507059034696140
 GameObject:
   m_ObjectHideFlags: 0
