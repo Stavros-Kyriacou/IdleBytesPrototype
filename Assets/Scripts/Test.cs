@@ -6,6 +6,7 @@ public class Test : MonoBehaviour
 {
     public int removeAmount;
     public int addAmount;
+    public WorkbenchTierMenu tierMenu;
     public void RemoveComponent()
     {
         if (Inventory.Instance.RemoveComponent(1, 1, 1, removeAmount))
@@ -20,5 +21,10 @@ public class Test : MonoBehaviour
     public void AddComponent()
     {
         Inventory.Instance.AddComponent(1, 1, 1, addAmount);
+    }
+    public void TimerAvailable()
+    {
+        var timer = tierMenu.craftingTimers[0];
+        Debug.Log($"Timer 1 available: {timer.TimerAvailable}");
     }
 }
