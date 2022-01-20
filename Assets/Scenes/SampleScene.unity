@@ -7516,7 +7516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 917328718}
   CraftingTimerPrefab: {fileID: 5784507058825510508, guid: 168713374817f9e4986f253a5b49c396, type: 3}
-  ItemsToGenerate: 3
+  ItemsToGenerate: 2
   TierMenu: {fileID: 2146325877}
   upgradeSlotCost: 2000
 --- !u!1 &233371572
@@ -39681,7 +39681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f046a0d3ccfd8504490453efdde02118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Scrap: 10000
+  Scrap: 1000000
   Gems: 10000
   lootBoxes: 0000000000000000000000000000000000000000
   levelTexts:
@@ -48937,6 +48937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   removeAmount: 10
   addAmount: 1
+  tierMenu: {fileID: 2146325877}
 --- !u!114 &1480501152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48981,9 +48982,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PopulateCraftTimers, Assembly-CSharp
-        m_MethodName: AddTimer
+      - m_Target: {fileID: 1480501151}
+        m_TargetAssemblyTypeName: Test, Assembly-CSharp
+        m_MethodName: TimerAvailable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
