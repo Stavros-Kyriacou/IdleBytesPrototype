@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text dateTimeText;
     public double dollars;
     public double dollarsPerSec;
-    public Text dollarsText;
-    public Text dollarsPerSecText;
+    public TextMeshProUGUI dollarsText;
+    public TextMeshProUGUI dollarsPerSecText;
+    public TextMeshProUGUI gemsText;
     public List<Computer> computerList;
     private void Awake()
     {
@@ -28,6 +30,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         CalculateDollarsPerSec();
+        UpdateGemsText();
     }
 
     public void SetTime()
@@ -45,12 +48,17 @@ public class GameController : MonoBehaviour
     }
     public void CalculateDollarsPerSec()
     {
-        Debug.Log("Calculating $/s");
+        // Debug.Log("Calculating $/s");
         this.dollarsPerSec = 0;
 
         foreach (Computer c in computerList)
         {
             this.dollarsPerSec += c.totalDPS;
         }
+    }
+    public void UpdateGemsText()
+    {
+        gemsText.text = $"Gems: {Inventory.Instance.Gems}";
+
     }
 }
