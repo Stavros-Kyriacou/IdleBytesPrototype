@@ -13,6 +13,8 @@ public class CraftingTimer : MonoBehaviour
     private TextMeshProUGUI craftInfoText;
     [SerializeField]
     private Image collectButtonImage;
+    public Timer GraceTimer;
+    public CancelCraftMenu cancelCraftMenu;
     private int craftTime;
     private int timeRemaining;
     private int componentType;
@@ -20,6 +22,8 @@ public class CraftingTimer : MonoBehaviour
     private int componentLevel;
     private bool craftComplete;
     private bool timerAvailable = true;
+    private int[,] craftingComponents;
+    private int scrapCost;
     public bool TimerAvailable
     {
         get
@@ -27,8 +31,12 @@ public class CraftingTimer : MonoBehaviour
             return this.timerAvailable;
         }
     }
-    
-    public void StartCraft(int duration, int tier, int level, int type)
+
+    private void Awake()
+    {
+        this.GraceTimer = GetComponent<Timer>();
+    }
+    public void StartCraft(int duration, int tier, int level, int type, int scrapCost, int[,] craftingComponents)
     {
         this.craftTime = duration;
         this.timeRemaining = this.craftTime;
@@ -37,10 +45,13 @@ public class CraftingTimer : MonoBehaviour
         this.componentLevel = level;
         this.craftComplete = false;
         this.timerAvailable = false;
+        this.scrapCost = scrapCost;
+        this.craftingComponents = craftingComponents;
         craftInfoText.text = $"Tier: {this.componentTier} {Ext.ComponentType(this.componentType)}";
         TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
         timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
         StartCoroutine("CraftTimer");
+        this.GraceTimer.StartTimer(10);
     }
     IEnumerator CraftTimer()
     {
@@ -48,6 +59,7 @@ public class CraftingTimer : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             this.timeRemaining--;
+
             TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
             timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
             if (this.timeRemaining <= 0)
@@ -72,6 +84,35 @@ public class CraftingTimer : MonoBehaviour
         else
         {
             Debug.Log("Craft is not complete");
+        }
+    }
+    public void CancelCraft()
+    {
+        //move the menu on screen
+        //set the current timer reference
+        //update the description
+        //udpate the grace time and keep it counting down
+        //
+        if (!this.TimerAvailable)
+        {
+            ToggleCancelMenu();
+            cancelCraftMenu.currentTimer = this;
+            this.GraceTimer.cancelCraftMenu = this.cancelCraftMenu;
+            this.GraceTimer.UpdateText();
+
+        }
+
+    }
+    public void ToggleCancelMenu()
+    {
+        var r = cancelCraftMenu.GetComponent<RectTransform>();
+        if (r.anchoredPosition == Vector2.zero)
+        {
+            r.anchoredPosition = Vector2.up * 1000;
+        }
+        else
+        {
+            r.anchoredPosition = Vector2.zero;
         }
     }
     public void CompleteNow()
