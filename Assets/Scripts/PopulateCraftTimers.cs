@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class PopulateCraftTimers : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class PopulateCraftTimers : MonoBehaviour
     private int maxCraftSlots = 10;
     [SerializeField] private WorkbenchTierMenu TierMenu;
     public int upgradeSlotCost;
+    public TextMeshProUGUI upgradeCostText;
 
     void Start()
     {
@@ -23,14 +24,18 @@ public class PopulateCraftTimers : MonoBehaviour
             // item_go.transform.localScale = Vector2.one;
             AddTimer();
         }
+        upgradeCostText.text = $"Cost: {this.upgradeSlotCost} Gems";
     }
     public void AddTimer()
     {
         var timer = Instantiate(CraftingTimerPrefab);
+        var craftingTimer = timer.GetComponent<CraftingTimer>();
+        craftingTimer.cancelCraftMenu = TierMenu.cancelCraftMenu;
         timer.transform.SetParent(ContentContainer);
         timer.transform.localScale = Vector2.one;
 
-        TierMenu.craftingTimers.Add(timer.GetComponent<CraftingTimer>());
+        TierMenu.craftingTimers.Add(craftingTimer);
+
     }
     public void BuyUpgradeSlot()
     {
@@ -39,6 +44,7 @@ public class PopulateCraftTimers : MonoBehaviour
             if (upgradeSlotCost <= Inventory.Instance.Gems)
             {
                 Inventory.Instance.Gems -= upgradeSlotCost;
+                GameController.Instance.UpdateGemsText();
                 AddTimer();
             }
             else
