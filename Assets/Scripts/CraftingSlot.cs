@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class CraftingTimer : MonoBehaviour
+public class CraftingSlot : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI timeRemainingText;
