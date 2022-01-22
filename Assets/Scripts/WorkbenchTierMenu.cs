@@ -21,6 +21,7 @@ public class WorkbenchTierMenu : MonoBehaviour
     public ComponentInventory ComponentInventory;
     public WorkbenchManager WorkbenchManager;
     public List<CraftingTimer> craftingTimers;
+    public CancelCraftMenu cancelCraftMenu;
     public bool AllSocketed
     {
         get
@@ -260,7 +261,7 @@ public class WorkbenchTierMenu : MonoBehaviour
             progressBars[i].GetCurrentFill(weights[i], totalWeight);
         }
         scrapCostText.text = $"Cost: {ScrapCost} Scrap";
-        TimeSpan time = TimeSpan.FromSeconds(5 * craftingComponents[0, 0]);
+        TimeSpan time = TimeSpan.FromSeconds((5 * craftingComponents[0, 0]) + 10);
         craftingTimeText.text = time.ToString(@"hh\:mm\:ss");
     }
     public void Craft()
@@ -273,7 +274,7 @@ public class WorkbenchTierMenu : MonoBehaviour
         {
             if (Inventory.Instance.Scrap >= ScrapCost)
             {
-                int craftDuration = 5 * craftingComponents[0, 0];
+                int craftDuration = (5 * craftingComponents[0, 0]) + 10;
                 int craftTier = craftingComponents[0, 0] + 1;
                 int craftLevel = Ext.RollWeights(upgradeWeights[TotalSocketedLevel - 1].weights) + 1;
                 int craftType = craftingComponents[0, 2];
@@ -287,10 +288,10 @@ public class WorkbenchTierMenu : MonoBehaviour
                     Inventory.Instance.Scrap -= ScrapCost;
                     WorkbenchManager.UpdateScrapText();
 
+                    availableTimer.StartCraft(craftDuration, craftTier, craftLevel, craftType, ScrapCost, craftingComponents);
+
                     DeleteComponents();
                     ResetCraftInfo();
-
-                    availableTimer.StartCraft(craftDuration, craftTier, craftLevel, craftType);
                     ComponentInventory.DeselectLevel();
                     ComponentInventory.UpdateText();
                 }
