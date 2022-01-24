@@ -31,7 +31,7 @@ public class CancelCraftMenu : MonoBehaviour
         if (!craftingSlot.CraftTimer.IsAvailable)
         {
             //Craft is not available => craft is happening
-            ToggleMenu();
+            ToggleMenu(true);
             if (_isVisible)
             {
                 _craftingSlot = craftingSlot;
@@ -43,17 +43,21 @@ public class CancelCraftMenu : MonoBehaviour
             }
         }
     }
-    public void ToggleMenu()
+    public void ConfirmCancel()
     {
-        if (_rectTransform.anchoredPosition == Vector2.zero)
-        {
-            _rectTransform.anchoredPosition = OffScreen;
-            _isVisible = false;
-        }
-        else
+        this._craftingSlot.CancelCraft();
+    }
+    public void ToggleMenu(bool visible)
+    {
+        if (visible)
         {
             _rectTransform.anchoredPosition = Vector2.zero;
             _isVisible = true;
+        }
+        else
+        {
+            _rectTransform.anchoredPosition = OffScreen;
+            _isVisible = false;
         }
     }
     public void UpdateTimeRemaining()
