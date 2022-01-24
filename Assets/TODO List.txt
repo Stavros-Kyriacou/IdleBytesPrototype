@@ -16,15 +16,50 @@ Component Select Screen
 
 Computers
 - Component set bonuses
+- Motherboard level requirements to socket components
 - Buy new computers, must work with wifi bandwidth
     - Make the computer select screen
 
 
 Workbench
-- Make the screen
-- Disassemble components
-- Upgrade components
-- Scrap costs
+- Errors to fix
+
+TIER UPGRADE MENU
+
+IDEA - a way to change how items are removed from the inventory
+Change how items are taken from the inventory
+Don't remove components from the inventory until you press the craft button
+This could be useful in the future if we encounter any errors with the current system
+
+TODO: check if component inventory > 0                                                                                  COMPLETE
+TODO: check if the current tier/level component has already been selected                                               COMPLETE
+TODO: add ability to replace the selected component with another                                                        COMPLETE
+TODO: add reset all button                                                                                              COMPLETE
+TODO: only allow components of same type and tier to be socketed                                                        COMPLETE
+TODO: reset all sockets when closing the workbench                                                                      COMPLETE                     
+TODO: add ability to deselect socket                                                                                    COMPLETE                                   
+TODO: when selecting the same component level, unsocket the component and deselected the button                         NOT NEEDED
+TODO: update crafting outcome percentages                                                                               COMPLETE
+TODO: make the craft button work with dynamic scrap cost based on all component levels                                  COMPLETE
+TODO: can only socket up to tier 9 components                                                                           COMPLETE
+TODO: crafting time                                                                                                     COMPLETE                                                 
+TODO: allow for multiple upgrades at the same time                                                                      COMPLETE
+
+- Deselecting the socket throws an error                                            COMPLETE
+- Do not allow Tier 10 components to be socketed                                    COMPLETE
+- Figure out a way to keep the craft timer going when you close the workbench       COMPLETE
+- Allow multiple crafts to happen at once                                           COMPLETE
+- Unlock new craft slots                                                            COMPLETE
+- Cancel craft button & popup menu                                                  COMPLETE
+- On the craft button, remove the scrap cost after the craft has been started       COMPLETE
+
+LEVEL UPGRADE MENU
+- Do not allow level 10 components to be socketed
+
+ DECONSTRUCT MENU
+ - Reset button needs to add compoents back into inventory
+ - Group components of same Tier/Level instead of adding a new line
+
 
 
 Research
