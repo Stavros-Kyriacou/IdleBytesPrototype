@@ -7654,6 +7654,7 @@ MonoBehaviour:
   ItemsToGenerate: 2
   TierMenu: {fileID: 2146325877}
   CancelCraftMenu: {fileID: 411976949}
+  WorkbenchManager: {fileID: 883009440}
   upgradeSlotCost: 2000
   upgradeCostText: {fileID: 584416753}
 --- !u!1 &233371572
@@ -50486,7 +50487,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1492057233}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 411976949}
+        m_TargetAssemblyTypeName: CancelCraftMenu, Assembly-CSharp
+        m_MethodName: ConfirmCancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1492057233
 MonoBehaviour:
   m_ObjectHideFlags: 0
