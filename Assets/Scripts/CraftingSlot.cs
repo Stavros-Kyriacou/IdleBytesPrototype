@@ -10,6 +10,8 @@ public class CraftingSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeRemainingText;
     [SerializeField] private TextMeshProUGUI craftInfoText;
     [SerializeField] private Image collectButtonImage;
+    [HideInInspector] public CancelCraftMenu cancelCraftMenu;
+    [HideInInspector] public WorkbenchManager workbenchManager;
     public Button CancelButton;
     public Timer CraftTimer;
     public Timer GraceTimer;
@@ -54,18 +56,54 @@ public class CraftingSlot : MonoBehaviour
             Debug.Log($"Tier: {this._componentTier} Level: {this._componentLevel} {Ext.ComponentType(this._componentType)} added to inventory!");
             Inventory.Instance.AddComponent(this._componentType, this._componentTier, this._componentLevel, 1);
             this.CraftTimer.ResetTimer();
+
+
             this.craftInfoText.text = "Craft Info";
             this.collectButtonImage.color = Color.white;
+            this.CancelButton.gameObject.SetActive(true);
         }
         else
         {
             Debug.Log("Craft is not complete");
         }
     }
+    public void CancelCraft()
+    {
+        if (this.GraceTimer.IsComplete)
+        {
+            //no components, just some scrap
+            Inventory.Instance.Scrap += 500;
+        }
+        else
+        {
+            //add components back to inventory, add less scrap
+            for (int i = 0; i < craftingComponents.GetLength(0); i++)
+            {
+                //Crafting ComponentsRows: Tier, Level, ComponentType
+                Inventory.Instance.AddComponent(craftingComponents[i, 2], craftingComponents[i, 0], craftingComponents[i, 1], 1);
+            }
+            //maybe need to reset craftingCompoents[]
+            Inventory.Instance.Scrap += 200;
+        }
+        workbenchManager.UpdateScrapText();
+        cancelCraftMenu.ToggleMenu(false);
+        ResetCraftSlot();
+    }
     public void CraftCompleted()
     {
         this.craftInfoText.text = $"Tier: {this._componentTier} Level: {this._componentLevel} {Ext.ComponentType(this._componentType)}";
         this.collectButtonImage.color = Color.green;
+        this.cancelCraftMenu.ToggleMenu(false);
+        this.CancelButton.gameObject.SetActive(false);
+    }
+    public void ResetCraftSlot()
+    {
+        this.craftInfoText.text = "Craft Info";
+        this.timeRemainingText.text = "Time Remaining: 00:00:00";
+        this.CraftTimer.ResetTimer();
+        this.GraceTimer.ResetTimer();
+        this.collectButtonImage.color = Color.white;
+        this.CancelButton.gameObject.SetActive(true);
     }
     public void CompleteNow()
     {
