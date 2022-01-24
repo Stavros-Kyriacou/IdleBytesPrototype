@@ -48,8 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a84e86b7ce8dc694d86b1fb5a16be329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAvailable: 0
   IsComplete: 0
-  cancelCraftMenu: {fileID: 0}
+  OnTimerCountdown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTimerComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2360314440836644400
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,19 +310,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3506598331232315498}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5784507058825510510}
-        m_TargetAssemblyTypeName: CraftingTimer, Assembly-CSharp
-        m_MethodName: CancelCraft
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5784507058083941365
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,8 +588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5784507058825510509}
-  - component: {fileID: 5784507058825510510}
-  - component: {fileID: 5133593083495374529}
+  - component: {fileID: 8067227480761618500}
   m_Layer: 5
   m_Name: Crafting Slot
   m_TagString: Untagged
@@ -630,7 +623,7 @@ RectTransform:
   m_AnchoredPosition: {x: -1.4235, y: -1.898}
   m_SizeDelta: {x: 661.9433, y: 116.1123}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5784507058825510510
+--- !u!114 &8067227480761618500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -645,21 +638,9 @@ MonoBehaviour:
   timeRemainingText: {fileID: 5784507058464937385}
   craftInfoText: {fileID: 5784507058083941367}
   collectButtonImage: {fileID: 5784507059034696143}
-  GraceTimer: {fileID: 0}
-  cancelCraftMenu: {fileID: 0}
---- !u!114 &5133593083495374529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5784507058825510508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a84e86b7ce8dc694d86b1fb5a16be329, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsComplete: 0
+  CancelButton: {fileID: 980067427089093426}
+  CraftTimer: {fileID: 1674918681473653393}
+  GraceTimer: {fileID: 428208738694425387}
   cancelCraftMenu: {fileID: 0}
 --- !u!1 &5784507059034696140
 GameObject:
@@ -782,8 +763,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5784507058825510510}
-        m_TargetAssemblyTypeName: CraftingTimer, Assembly-CSharp
+      - m_Target: {fileID: 8067227480761618500}
+        m_TargetAssemblyTypeName: CraftingSlot, Assembly-CSharp
         m_MethodName: CollectCraft
         m_Mode: 1
         m_Arguments:
@@ -1124,7 +1105,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5784507058825510510}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CraftingTimer, Assembly-CSharp
         m_MethodName: CompleteNow
         m_Mode: 1
@@ -1410,5 +1391,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a84e86b7ce8dc694d86b1fb5a16be329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAvailable: 0
   IsComplete: 0
-  cancelCraftMenu: {fileID: 0}
+  OnTimerCountdown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTimerComplete:
+    m_PersistentCalls:
+      m_Calls: []
