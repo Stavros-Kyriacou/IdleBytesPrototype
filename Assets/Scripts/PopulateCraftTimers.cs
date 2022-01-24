@@ -11,6 +11,7 @@ public class PopulateCraftTimers : MonoBehaviour
     private int maxCraftSlots = 10;
     [SerializeField] private WorkbenchTierMenu TierMenu;
     public CancelCraftMenu CancelCraftMenu;
+    public WorkbenchManager WorkbenchManager;
     public int upgradeSlotCost;
     public TextMeshProUGUI upgradeCostText;
 
@@ -32,6 +33,8 @@ public class PopulateCraftTimers : MonoBehaviour
         //Add onClick method to the cancel button
         var craftingSlot = go.GetComponent<CraftingSlot>();
         craftingSlot.CancelButton.onClick.AddListener(()=> CancelCraftMenu.Cancel(craftingSlot));
+        craftingSlot.cancelCraftMenu = CancelCraftMenu;
+        craftingSlot.workbenchManager = WorkbenchManager;
 
         //Add to list of crafting slots
         TierMenu.CraftingSlots.Add(craftingSlot);
