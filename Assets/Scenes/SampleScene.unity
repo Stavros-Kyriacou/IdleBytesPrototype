@@ -7650,9 +7650,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 917328718}
-  CraftingTimerPrefab: {fileID: 5784507058825510508, guid: 168713374817f9e4986f253a5b49c396, type: 3}
+  CraftSlotPrefab: {fileID: 5784507058825510508, guid: 168713374817f9e4986f253a5b49c396, type: 3}
   ItemsToGenerate: 2
   TierMenu: {fileID: 2146325877}
+  CancelCraftMenu: {fileID: 411976949}
   upgradeSlotCost: 2000
   upgradeCostText: {fileID: 584416753}
 --- !u!1 &233371572
@@ -13369,7 +13370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2222766916673856019, guid: 586dee0a42e196e4796fbcbf6dd9d33d, type: 3}
       propertyPath: m_Name
-      value: Cancel Craft Popup
+      value: Cancel Craft Menu
       objectReference: {fileID: 0}
     - target: {fileID: 2672005120238179545, guid: 586dee0a42e196e4796fbcbf6dd9d33d, type: 3}
       propertyPath: m_text
@@ -13389,11 +13390,11 @@ PrefabInstance:
       objectReference: {fileID: 411976949}
     - target: {fileID: 5628581682102679106, guid: 586dee0a42e196e4796fbcbf6dd9d33d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HideMenu
+      value: ToggleMenu
       objectReference: {fileID: 0}
     - target: {fileID: 5628581682102679106, guid: 586dee0a42e196e4796fbcbf6dd9d33d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CancelCraft, Assembly-CSharp
+      value: CancelCraftMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6131947446166014262, guid: 586dee0a42e196e4796fbcbf6dd9d33d, type: 3}
       propertyPath: m_SizeDelta.x
@@ -13458,7 +13459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GraceTimeText: {fileID: 1557795607}
   DescriptionText: {fileID: 627297982}
-  currentTimer: {fileID: 0}
+  offset: 1000
 --- !u!1 &417043580
 GameObject:
   m_ObjectHideFlags: 0
@@ -68220,8 +68221,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 411976949}
-        m_TargetAssemblyTypeName: CancelCraft, Assembly-CSharp
-        m_MethodName: HideMenu
+        m_TargetAssemblyTypeName: CancelCraftMenu, Assembly-CSharp
+        m_MethodName: ToggleMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -75912,7 +75913,7 @@ MonoBehaviour:
   currentCraftsMenu: {fileID: 231510536}
   ComponentInventory: {fileID: 218869617}
   WorkbenchManager: {fileID: 883009440}
-  craftingTimers: []
+  CraftingSlots: []
   cancelCraftMenu: {fileID: 411976949}
 --- !u!1 &2146425672
 GameObject:
