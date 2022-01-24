@@ -20,7 +20,7 @@ public class WorkbenchTierMenu : MonoBehaviour
     public RectTransform currentCraftsMenu;
     public ComponentInventory ComponentInventory;
     public WorkbenchManager WorkbenchManager;
-    public List<CraftingTimer> craftingTimers;
+    public List<CraftingSlot> CraftingSlots;
     public CancelCraftMenu cancelCraftMenu;
     public bool AllSocketed
     {
@@ -279,16 +279,16 @@ public class WorkbenchTierMenu : MonoBehaviour
                 int craftLevel = Ext.RollWeights(upgradeWeights[TotalSocketedLevel - 1].weights) + 1;
                 int craftType = craftingComponents[0, 2];
 
-                var availableTimer = FindAvailableCraftTimer();
+                var availableSlot = FindAvailableCraftSlot();
 
-                if (availableTimer != null)
+                if (availableSlot != null)
                 {
                     Debug.Log($"Craft tier: {craftTier}, Craft Level: {craftLevel}, Craft Type: {craftType}");
 
                     Inventory.Instance.Scrap -= ScrapCost;
                     WorkbenchManager.UpdateScrapText();
 
-                    availableTimer.StartCraft(craftDuration, craftTier, craftLevel, craftType, ScrapCost, craftingComponents);
+                    availableSlot.StartCraft(craftDuration, craftTier, craftLevel, craftType, ScrapCost, craftingComponents);
 
                     DeleteComponents();
                     ResetCraftInfo();
@@ -310,13 +310,13 @@ public class WorkbenchTierMenu : MonoBehaviour
             Debug.Log("Must have 5 components socketed to craft");
         }
     }
-    public CraftingTimer FindAvailableCraftTimer()
+    public CraftingSlot FindAvailableCraftSlot()
     {
-        for (int i = 0; i < craftingTimers.Count; i++)
+        for (int i = 0; i < CraftingSlots.Count; i++)
         {
-            if (craftingTimers[i].TimerAvailable)
+            if (CraftingSlots[i].CraftTimer.IsAvailable)
             {
-                return craftingTimers[i];
+                return CraftingSlots[i];
             }
         }
         return null;
