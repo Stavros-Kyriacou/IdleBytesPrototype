@@ -2,55 +2,61 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
-    private int Duration;
-    private int TimeRemaining;
-    [HideInInspector]
-    public bool IsComplete;
-    // [HideInInspector]
-    public CancelCraftMenu cancelCraftMenu;
-    public void StartTimer(int duration)
+    private int _duration;
+    private int _timeRemaining;
+    public int TimeRemaining
     {
-        this.Duration = duration;
-        this.TimeRemaining = this.Duration;
-        this.IsComplete = false;
-        StartCoroutine("CountdownTimer");
+        get
+        {
+            return this._timeRemaining;
+        }
+        private set { }
     }
-    IEnumerator CountdownTimer()
+    [HideInInspector] public bool IsAvailable;
+    [HideInInspector] public bool IsComplete;
+    public UnityEvent OnTimerCountdown;
+    public UnityEvent OnTimerStarted;
+    public UnityEvent OnTimerComplete;
+    private void Awake()
     {
-        while (this.TimeRemaining > 0)
+        IsAvailable = true;
+        IsComplete = false;
+    }
+    public void StartTimer(int durationInSeconds)
+    {
+        this._duration = durationInSeconds;
+        this._timeRemaining = this._duration;
+        this.IsAvailable = false;
+        this.IsComplete = false;
+        OnTimerStarted.Invoke();
+        StartCoroutine("Countdown");
+    }
+    IEnumerator Countdown()
+    {
+        while (this._timeRemaining > 0)
         {
             yield return new WaitForSeconds(1);
-            this.TimeRemaining--;
+            this._timeRemaining--;
+            OnTimerCountdown.Invoke();
 
-            UpdateText();
-            if (this.TimeRemaining <= 0)
+            if (this._timeRemaining <= 0)
             {
                 this.IsComplete = true;
-                StopCoroutine("Timer");
-                Debug.Log("Grace Time finished");
+                OnTimerComplete.Invoke();
+                StopCoroutine("Countdown");
+                Debug.Log("Timer finished");
                 break;
             }
         }
     }
-    public void UpdateText()
+    public void ResetTimer()
     {
-        if (this.cancelCraftMenu != null)
-        {
-            TimeSpan time = TimeSpan.FromSeconds(this.TimeRemaining);
-            this.cancelCraftMenu.GraceTimeText.text = "Grace Time: " + time.ToString(@"hh\:mm\:ss");
-            if (this.TimeRemaining > 0)
-            {
-                //grace timer is still active
-                this.cancelCraftMenu.DescriptionText.text = $"If you cancel now, you will get your components back and x scrap back ";
-            }
-            else
-            {
-                //grace timer finished
-                this.cancelCraftMenu.DescriptionText.text = $"Grace Time over. If you cancel now, you will not get your components back but will receive x scrap";
-            }
-        }
+        this.IsAvailable = true;
+        this.IsComplete = false;
+        this._timeRemaining = this._duration;
     }
 }
