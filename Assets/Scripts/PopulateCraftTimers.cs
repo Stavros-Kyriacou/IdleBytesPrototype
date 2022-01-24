@@ -6,10 +6,11 @@ using TMPro;
 public class PopulateCraftTimers : MonoBehaviour
 {
     [SerializeField] private Transform ContentContainer;
-    [SerializeField] private GameObject CraftingTimerPrefab;
+    [SerializeField] private GameObject CraftSlotPrefab;
     [SerializeField] private int ItemsToGenerate;
     private int maxCraftSlots = 10;
     [SerializeField] private WorkbenchTierMenu TierMenu;
+    public CancelCraftMenu CancelCraftMenu;
     public int upgradeSlotCost;
     public TextMeshProUGUI upgradeCostText;
 
@@ -17,29 +18,27 @@ public class PopulateCraftTimers : MonoBehaviour
     {
         for (int i = 0; i < ItemsToGenerate; i++)
         {
-            // var item_go = Instantiate(CraftingTimerPrefab);
-            // //parent the item to the content container
-            // item_go.transform.SetParent(ContentContainer);
-            // //reset the item's scale -- this can get munged with UI prefabs
-            // item_go.transform.localScale = Vector2.one;
             AddTimer();
         }
         upgradeCostText.text = $"Cost: {this.upgradeSlotCost} Gems";
     }
     public void AddTimer()
     {
-        var timer = Instantiate(CraftingTimerPrefab);
-        var craftingTimer = timer.GetComponent<CraftingTimer>();
-        craftingTimer.cancelCraftMenu = TierMenu.cancelCraftMenu;
-        timer.transform.SetParent(ContentContainer);
-        timer.transform.localScale = Vector2.one;
+        //Instantiate crafting slot, set its parent and scale
+        var go = Instantiate(CraftSlotPrefab);
+        go.transform.SetParent(ContentContainer);
+        go.transform.localScale = Vector2.one;
 
-        TierMenu.craftingTimers.Add(craftingTimer);
+        //Add onClick method to the cancel button
+        var craftingSlot = go.GetComponent<CraftingSlot>();
+        craftingSlot.CancelButton.onClick.AddListener(()=> CancelCraftMenu.Cancel(craftingSlot));
 
+        //Add to list of crafting slots
+        TierMenu.CraftingSlots.Add(craftingSlot);
     }
     public void BuyUpgradeSlot()
     {
-        if (TierMenu.craftingTimers.Count < maxCraftSlots)
+        if (TierMenu.CraftingSlots.Count < maxCraftSlots)
         {
             if (upgradeSlotCost <= Inventory.Instance.Gems)
             {
