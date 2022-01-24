@@ -352,5 +352,6 @@ public class WorkbenchTierMenu : MonoBehaviour
             progressBars[i].GetCurrentFill(0, 1);
         }
         craftingTimeText.text = "00:00:00";
+        scrapCostText.text = "Cost: 0 Scrap";
     }
 }
