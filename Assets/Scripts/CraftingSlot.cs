@@ -7,127 +7,73 @@ using System;
 
 public class CraftingSlot : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI timeRemainingText;
-    [SerializeField]
-    private TextMeshProUGUI craftInfoText;
-    [SerializeField]
-    private Image collectButtonImage;
+    [SerializeField] private TextMeshProUGUI timeRemainingText;
+    [SerializeField] private TextMeshProUGUI craftInfoText;
+    [SerializeField] private Image collectButtonImage;
+    public Button CancelButton;
+    public Timer CraftTimer;
     public Timer GraceTimer;
-    public CancelCraftMenu cancelCraftMenu;
-    private int craftTime;
-    private int timeRemaining;
-    private int componentType;
-    private int componentTier;
-    private int componentLevel;
-    private bool craftComplete;
-    private bool timerAvailable = true;
+    private int _timeRemaining;
+    private int _componentType;
+    private int _componentTier;
+    private int _componentLevel;
+    private bool _craftComplete;
+    private bool _timerAvailable = true;
     private int[,] craftingComponents;
-    private int scrapCost;
+    private int _scrapCost;
     public bool TimerAvailable
     {
         get
         {
-            return this.timerAvailable;
+            return this._timerAvailable;
         }
     }
 
     private void Awake()
     {
-        this.GraceTimer = GetComponent<Timer>();
+        CraftTimer.OnTimerStarted.AddListener(UpdateTimeRemainingText);
+        CraftTimer.OnTimerCountdown.AddListener(UpdateTimeRemainingText);
+        CraftTimer.OnTimerComplete.AddListener(CraftCompleted);
     }
-    public void StartCraft(int duration, int tier, int level, int type, int scrapCost, int[,] craftingComponents)
+    public void StartCraft(int durationInSeconds, int tier, int level, int type, int scrapCost, int[,] craftingComponents)
     {
-        this.craftTime = duration;
-        this.timeRemaining = this.craftTime;
-        this.componentType = type;
-        this.componentTier = tier;
-        this.componentLevel = level;
-        this.craftComplete = false;
-        this.timerAvailable = false;
-        this.scrapCost = scrapCost;
+        this._componentType = type;
+        this._componentTier = tier;
+        this._componentLevel = level;
+        this._scrapCost = scrapCost;
         this.craftingComponents = craftingComponents;
-        craftInfoText.text = $"Tier: {this.componentTier} {Ext.ComponentType(this.componentType)}";
-        TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
-        timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
-        StartCoroutine("CraftTimer");
-        this.GraceTimer.StartTimer(10);
-    }
-    IEnumerator CraftTimer()
-    {
-        while (this.timeRemaining > 0)
-        {
-            yield return new WaitForSeconds(1);
-            this.timeRemaining--;
+        this.craftInfoText.text = $"Tier: {this._componentTier} {Ext.ComponentType(this._componentType)}";
 
-            TimeSpan time = TimeSpan.FromSeconds(this.timeRemaining);
-            timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
-            if (this.timeRemaining <= 0)
-            {
-                StopCoroutine("CraftTimer");
-                this.craftComplete = true;
-                this.collectButtonImage.color = Color.green;
-                this.craftInfoText.text = $"Tier: {this.componentTier} Level: {this.componentLevel} {Ext.ComponentType(this.componentType)}";
-                break;
-            }
-        }
+        CraftTimer.StartTimer(durationInSeconds);
+        GraceTimer.StartTimer(10);
     }
     public void CollectCraft()
     {
-        if (this.craftComplete)
+        if (this.CraftTimer.IsComplete)
         {
-            Debug.Log($"Tier: {this.componentTier} Level: {this.componentLevel} {Ext.ComponentType(this.componentType)} added to inventory!");
-            Inventory.Instance.AddComponent(this.componentType, this.componentTier, this.componentLevel, 1);
-            ResetTimer();
-            this.timerAvailable = true;
+            Debug.Log($"Tier: {this._componentTier} Level: {this._componentLevel} {Ext.ComponentType(this._componentType)} added to inventory!");
+            Inventory.Instance.AddComponent(this._componentType, this._componentTier, this._componentLevel, 1);
+            this.CraftTimer.ResetTimer();
+            this.craftInfoText.text = "Craft Info";
+            this.collectButtonImage.color = Color.white;
         }
         else
         {
             Debug.Log("Craft is not complete");
         }
     }
-    public void CancelCraft()
+    public void CraftCompleted()
     {
-        //move the menu on screen
-        //set the current timer reference
-        //update the description
-        //udpate the grace time and keep it counting down
-        //
-        if (!this.TimerAvailable)
-        {
-            ToggleCancelMenu();
-            cancelCraftMenu.currentTimer = this;
-            this.GraceTimer.cancelCraftMenu = this.cancelCraftMenu;
-            this.GraceTimer.UpdateText();
-
-        }
-
-    }
-    public void ToggleCancelMenu()
-    {
-        var r = cancelCraftMenu.GetComponent<RectTransform>();
-        if (r.anchoredPosition == Vector2.zero)
-        {
-            r.anchoredPosition = Vector2.up * 1000;
-        }
-        else
-        {
-            r.anchoredPosition = Vector2.zero;
-        }
+        this.craftInfoText.text = $"Tier: {this._componentTier} Level: {this._componentLevel} {Ext.ComponentType(this._componentType)}";
+        this.collectButtonImage.color = Color.green;
     }
     public void CompleteNow()
     {
         Debug.Log("You must pay $300 :)");
     }
-    public void ResetTimer()
+    public void UpdateTimeRemainingText()
     {
-        this.craftTime = 0;
-        this.timeRemaining = 0;
-        this.componentType = 0;
-        this.componentTier = 0;
-        this.componentLevel = 0;
-        this.craftInfoText.text = "Craft Info";
-        this.timeRemainingText.text = "Timer Remaining: 00:00:00";
-        this.collectButtonImage.color = Color.white;
+        TimeSpan time = TimeSpan.FromSeconds(CraftTimer.TimeRemaining);
+        timeRemainingText.text = "Time Remaining: " + time.ToString(@"hh\:mm\:ss");
     }
 }
