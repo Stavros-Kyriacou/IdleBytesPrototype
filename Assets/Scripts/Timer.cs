@@ -55,6 +55,7 @@ public class Timer : MonoBehaviour
     }
     public void ResetTimer()
     {
+        StopCoroutine("Countdown");
         this.IsAvailable = true;
         this.IsComplete = false;
         this._timeRemaining = this._duration;
