@@ -28,12 +28,19 @@ public class Timer : MonoBehaviour
     }
     public void StartTimer(int durationInSeconds)
     {
-        this._duration = durationInSeconds;
-        this._timeRemaining = this._duration;
-        this.IsAvailable = false;
-        this.IsComplete = false;
-        OnTimerStarted.Invoke();
-        StartCoroutine("Countdown");
+        if (this.IsAvailable)
+        {
+            this._duration = durationInSeconds;
+            this._timeRemaining = this._duration;
+            this.IsAvailable = false;
+            this.IsComplete = false;
+            OnTimerStarted.Invoke();
+            StartCoroutine("Countdown");
+        }
+        else
+        {
+            Debug.Log("Timer not available");
+        }
     }
     IEnumerator Countdown()
     {
