@@ -106,8 +106,18 @@ public class WorkbenchLevelMenu : MonoBehaviour
                     break;
             }
             selectedComponentText.text = "Tier: " + selectedTier + "\nLevel: " + selectedLevel + "\n" + componentString;
-            scrapCostText.text = $"{ScrapCost} Scrap";
-            craftResultText.text = "Tier: " + selectedTier + "\nLevel: " + (selectedLevel + 1) + "\n" + componentString;
+
+            if (selectedLevel < 10)
+            {
+                craftResultText.text = "Tier: " + selectedTier + "\nLevel: " + (selectedLevel + 1) + "\n" + componentString;
+                scrapCostText.text = $"{ScrapCost} Scrap";
+            }
+            else
+            {
+                craftResultText.text = "Can't upgrade past lvl 10";
+                scrapCostText.text = "0 Scrap";
+            }
+
         }
     }
     public void Craft()
