@@ -14578,7 +14578,7 @@ GameObject:
   - component: {fileID: 496162524}
   - component: {fileID: 496162523}
   m_Layer: 5
-  m_Name: Deconstruction Amount
+  m_Name: Scrap Amount Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14623,7 +14623,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 20 Scrap
+  m_text: 'Scrap: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -36322,13 +36322,14 @@ MonoBehaviour:
   - {fileID: 692807564}
   - {fileID: 47340723}
   - {fileID: 32364160}
-  effectText: {fileID: 135091441}
-  wattsText: {fileID: 537232263}
   componentSprites:
   - {fileID: 21300000, guid: 3b719394e059e0141b426c6198a6c8b4, type: 3}
   - {fileID: 21300000, guid: e345da5c90fe0b642b7eefbbfc7f65ef, type: 3}
   - {fileID: 21300000, guid: 7ac6d4852f1418d4e9dfe6c6a9d9f342, type: 3}
   - {fileID: 21300000, guid: 0409ed970d0a51f458a1c2738f3bfcc7, type: 3}
+  effectText: {fileID: 135091441}
+  wattsText: {fileID: 537232263}
+  scrapAmounText: {fileID: 496162523}
 --- !u!4 &1159836255
 Transform:
   m_ObjectHideFlags: 0
@@ -44079,7 +44080,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1471463234}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1159836254}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: DeconstructComponent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1471463234
 MonoBehaviour:
   m_ObjectHideFlags: 0
