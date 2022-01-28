@@ -17,13 +17,6 @@ public class Inventory : MonoBehaviour
     public int[,] ramInventory = new int[10, 10];
     public int[,] hddInventory = new int[10, 10];
     public int[] lootBoxes = new int[5];
-    public List<TextMeshProUGUI> levelTexts;
-    public List<Image> componentButtonImages;
-    public List<Image> tierImages;
-    public List<Image> levelButtonImages;
-    public TextMeshProUGUI effectText;
-    public TextMeshProUGUI wattsText;
-    public Sprite[] componentSprites;
     private int selectedComponent = 1;
     private int selectedTier = 1;
     private int selectedLevel = 1;
@@ -31,6 +24,17 @@ public class Inventory : MonoBehaviour
     private GPU gpu = new GPU();
     private RAM ram = new RAM();
     private HDD hdd = new HDD();
+
+    [Header("UI Management")]
+    public List<TextMeshProUGUI> levelTexts;
+    public List<Image> componentButtonImages;
+    public List<Image> tierImages;
+    public List<Image> levelButtonImages;
+    public Sprite[] componentSprites;
+    [Header("Description Box")]
+    public TextMeshProUGUI effectText;
+    public TextMeshProUGUI wattsText;
+    public TextMeshProUGUI scrapAmounText;
 
     private void Awake()
     {
@@ -162,6 +166,23 @@ public class Inventory : MonoBehaviour
             default:
                 break;
         }
+        this.scrapAmounText.text = $"Scrap: {10 * this.selectedTier * this.selectedLevel}";
+    }
+    public void DeconstructComponent()
+    {
+        //check if inventory has the component
+        //remove the component from inventory
+        //add scrap amount
+        //update text
+        if (RemoveComponent(this.selectedComponent, this.selectedTier, this.selectedLevel, 1))
+        {
+            this.Scrap += 10 * this.selectedTier * this.selectedLevel;
+        }
+        else
+        {
+            Debug.Log("Cannot deconstruct. You do not have any of that component");
+        }
+        UpdateText();
     }
     public void AddComponent(int type, int tier, int level, int amount)
     {
