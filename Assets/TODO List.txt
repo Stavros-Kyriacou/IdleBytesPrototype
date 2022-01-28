@@ -23,6 +23,7 @@ Computers
 
 Workbench
 - Errors to fix
+- Update COmponent inventory when changeing workbench menu
 
 TIER UPGRADE MENU
 
@@ -54,11 +55,13 @@ TODO: allow for multiple upgrades at the same time                              
 - On the craft button, remove the scrap cost after the craft has been started       COMPLETE
 
 LEVEL UPGRADE MENU
-- Do not allow level 10 components to be socketed
+- Do not allow level 10 components to be socketed                                       COMPLETE
+- Use the component inventory prefab (not necessary atm, will just make code cleaner)
 
  DECONSTRUCT MENU
- - Reset button needs to add compoents back into inventory
- - Group components of same Tier/Level instead of adding a new line
+ - Reset button needs to add compoents back into inventory                          COMPLETE
+ - Group components of same Tier/Level instead of adding a new line                 CAN DO IN THE FUTURE WHEN WE THINK OF A FASTER SOLUTION
+ - Instead of destroying and instantiating list items, use object pooling           Stretch goal, just a performance increase to implement later
 
 
 
