@@ -1,6 +1,7 @@
 Iventory
-- Show individual scrap amount for deconstruction
-- Add quick scrap button
+- Show individual scrap amount for deconstruction                       COMPLETE
+- Add quick scrap button                                                COMPLETE
+- The quick deconstruct button should either send you to the deconstruction workbench or only allow you to deconstruct one component at a time
 
 
 
