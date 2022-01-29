@@ -6,6 +6,8 @@ using TMPro;
 
 public class ResearchManager : MonoBehaviour
 {
+    private Research SelectedResearch;
+    public List<Research> ResearchList;
     public List<ResearchTimer> ResearchTimers;
     public RectTransform ResearchPopupMenu;
     public float offset;
@@ -24,11 +26,16 @@ public class ResearchManager : MonoBehaviour
     public TextMeshProUGUI CompleteNowCostText;
     public Button StartResearchButton;
     public Button CompleteNowButton;
+    public List<TextMeshProUGUI> RequirementsTexts;
 
 
     private void Awake()
     {
-
+        //set references on all researches
+        foreach (var r in ResearchList)
+        {
+            r.ResearchManager = this;
+        }
     }
     public void ShowResearchPopup(bool visible)
     {
@@ -45,15 +52,76 @@ public class ResearchManager : MonoBehaviour
     {
         if (selectedResearch != null)
         {
+            //Update text fields to match the selected Research details
             TitleText.text = selectedResearch.Title;
             LevelText.text = $"Level: {selectedResearch.CurrentLevel}/{selectedResearch.MaxLevel}";
             DescriptionText.text = selectedResearch.Description;
             ResearchCostText.text = $"Cost: {selectedResearch.ScrapCost} Scrap";
             CompleteNowCostText.text = $"Cost: {selectedResearch.GemCost} Gems";
 
-            StartResearchButton.onClick.RemoveAllListeners();
-            ResearchTimers[0].CurrentResearch = selectedResearch;
-            StartResearchButton.onClick.AddListener(ResearchTimers[0].StartResearch);
+            //Clear all requirements text fields
+            for (int i = 0; i < RequirementsTexts.Count; i++)
+            {
+                RequirementsTexts[i].text = string.Empty;
+            }
+
+            //Update requirements texts fields if there are any
+            if (selectedResearch.ResearchRequirements.Count > 0)
+            {
+                for (int i = 0; i < selectedResearch.ResearchRequirements.Count; i++)
+                {
+                    RequirementsTexts[i].text = $"{selectedResearch.ResearchRequirements[i].Title}: Lvl {selectedResearch.ResearchRequirements[i].MinLevel}";
+                }
+            }
+
+            this.SelectedResearch = selectedResearch;
         }
     }
+    public void StartResearch()
+    {
+        var availableTimer = GetAvailableResearchTimer();
+        if (availableTimer != null)
+        {
+            if (SelectedResearch.RequirementsComplete())
+            {
+                if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
+                {
+                    if (SelectedResearch.ScrapCost <= Inventory.Instance.Scrap)
+                    {
+                        availableTimer.StartResearch(this.SelectedResearch);
+                        ShowResearchPopup(false);
+                    }
+                    else
+                    {
+                        Debug.Log("Not enough scrap");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Research already at max level");
+                }
+            }
+            else
+            {
+                Debug.Log("Research Requirements not met");
+            }
+        }
+        else
+        {
+            Debug.Log("No timer available");
+        }
+    }
+
+    public ResearchTimer GetAvailableResearchTimer()
+    {
+        for (int i = 0; i < ResearchTimers.Count; i++)
+        {
+            if (ResearchTimers[i].Timer.IsAvailable)
+            {
+                return ResearchTimers[i];
+            }
+        }
+        return null;
+    }
+    //TODO: add  method for complete research instantly button
 }
