@@ -55,7 +55,6 @@ public class Timer : MonoBehaviour
                 this.IsComplete = true;
                 OnTimerComplete.Invoke();
                 StopCoroutine("Countdown");
-                Debug.Log("Timer finished");
                 break;
             }
         }
