@@ -9,52 +9,70 @@ using TMPro;
 
 public class Research : MonoBehaviour
 {
-    public ResearchManager ResearchManager;
+    [Header("Research Details")]
     public string Title;
     public string Description;
     public int MaxLevel;
-    public int CurrentLevel;
-    public List<Research> ResearchRequirements;
+    [HideInInspector] public int CurrentLevel;
     public int DurationInSeconds;
     public int ScrapCost;
     public int GemCost;
+    [Header("Research Requirements")]
+    [Tooltip("The level this research must be if it is a prerequisite for other researches")]
+    public int MinLevel;
+    public List<Research> ResearchRequirements;
+
+    [Header("References")]
+    public ResearchManager ResearchManager;
     public ProgressBar ProgressBar;
+    public Button MainButton;
+
     [Header("Text Fields")]
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI DescriptionText;
     public TextMeshProUGUI LevelText;
+    private void OnEnable()
+    {
+        this.MainButton?.onClick.AddListener(() => ResearchManager.ShowResearchPopup(true));
+        this.MainButton?.onClick.AddListener(() => ResearchManager.UpdateResearchPopup(this));
+    }
+    private void OnDisable()
+    {
+        this.MainButton?.onClick.RemoveAllListeners();
+    }
     private void Awake()
     {
-        TitleText.text = Title;
-        LevelText.text = $"{this.CurrentLevel}/{this.MaxLevel}";
-        ProgressBar.GetCurrentFill(this.CurrentLevel, this.MaxLevel);
-
+        this.CurrentLevel = 0;
+        if (this.MinLevel > this.MaxLevel)
+        {
+            this.MinLevel = this.MaxLevel;
+        }
+        this.TitleText.text = Title;
+        this.LevelText.text = $"{this.CurrentLevel}/{this.MaxLevel}";
+        this.ProgressBar.GetCurrentFill(this.CurrentLevel, this.MaxLevel);
     }
-    //a research takes a certain amount of time to complete
-    //store the world API time that the research started at
-    //when you launch the game, subtract the time started from the current time
-    //check how long is remaining
-    //  5/10/2021 17:12:50
-
-
-
-
-
-
-
-    //reasearch takes 60 seconds to complete
-    //start the research, log off after 30s
-    //record time that you log off
-    //save game when you log off
-
-    //seconds remaining = 30s
-
-    //log in. GetCurrenDateTime from api
-    //calculate time since last login (CurrentTime - LastLogOff) in seconds
-
-    //Log off at 12:00:00 (30s remaining)
-    //Log in at 12:00:20
-    //time since last log off = 20s
-
-    //seconds remaining - time since last log off
+    public void IncreaseLevel()
+    {
+        if (this.CurrentLevel < this.MaxLevel)
+        {
+            this.CurrentLevel++;
+            UpdateLevelProgressBar();
+        }
+    }
+    public void UpdateLevelProgressBar()
+    {
+        this.LevelText.text = $"{this.CurrentLevel}/{this.MaxLevel}";
+        this.ProgressBar.GetCurrentFill(this.CurrentLevel, this.MaxLevel);
+    }
+    public bool RequirementsComplete()
+    {
+        foreach (var req in ResearchRequirements)
+        {
+            if (req.CurrentLevel < req.MinLevel)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
