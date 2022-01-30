@@ -24,7 +24,7 @@ public class Test : MonoBehaviour
     }
     public void TimerAvailable()
     {
-        var timer = tierMenu.craftingTimers[0];
+        var timer = tierMenu.CraftingSlots[0];
         Debug.Log($"Timer 1 available: {timer.TimerAvailable}");
     }
 }
