@@ -291,7 +291,7 @@ public class Inventory : MonoBehaviour
     }
     public bool RemoveScrap(int amount)
     {
-        if (amount <= this.Gems)
+        if (amount <= this.Scrap)
         {
             this.Scrap -= amount;
             return true;
