@@ -26,6 +26,7 @@ public class Inventory : MonoBehaviour
     private HDD hdd = new HDD();
 
     [Header("UI Management")]
+    public TextMeshProUGUI GemsText;
     public List<TextMeshProUGUI> levelTexts;
     public List<Image> componentButtonImages;
     public List<Image> tierImages;
@@ -257,5 +258,47 @@ public class Inventory : MonoBehaviour
                 break;
         }
         return validTransaction;
+    }
+    public void AddGems(int amount)
+    {
+        if (amount < 0)
+        {
+            amount *= -1;
+        }
+        this.Gems += amount;
+        this.GemsText.text = $"Gems: {this.Gems}";
+    }
+    public bool RemoveGems(int amount)
+    {
+        if (amount <= this.Gems)
+        {
+            this.Gems -= amount;
+            this.GemsText.text = $"Gems: {this.Gems}";
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void AddScrap(int amount)
+    {
+        if (amount < 0)
+        {
+            amount *= -1;
+        }
+        this.Scrap += amount;
+    }
+    public bool RemoveScrap(int amount)
+    {
+        if (amount <= this.Gems)
+        {
+            this.Scrap -= amount;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
