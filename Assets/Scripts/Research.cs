@@ -16,7 +16,8 @@ public class Research : MonoBehaviour
     [HideInInspector] public int CurrentLevel;
     public int DurationInSeconds;
     public int ScrapCost;
-    public int GemCost;
+    public int InstantCompleteCost;
+    
     [Header("Research Requirements")]
     [Tooltip("The level this research must be if it is a prerequisite for other researches")]
     public int MinLevel;
