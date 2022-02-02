@@ -57,7 +57,7 @@ public class ResearchManager : MonoBehaviour
             LevelText.text = $"Level: {selectedResearch.CurrentLevel}/{selectedResearch.MaxLevel}";
             DescriptionText.text = selectedResearch.Description;
             ResearchCostText.text = $"Cost: {selectedResearch.ScrapCost} Scrap";
-            CompleteNowCostText.text = $"Cost: {selectedResearch.GemCost} Gems";
+            CompleteNowCostText.text = $"Cost: {selectedResearch.InstantCompleteCost} Gems";
 
             //Clear all requirements text fields
             for (int i = 0; i < RequirementsTexts.Count; i++)
@@ -86,7 +86,7 @@ public class ResearchManager : MonoBehaviour
             {
                 if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
                 {
-                    if (SelectedResearch.ScrapCost <= Inventory.Instance.Scrap)
+                    if (Inventory.Instance.RemoveScrap(SelectedResearch.ScrapCost))
                     {
                         availableTimer.StartResearch(this.SelectedResearch);
                         ShowResearchPopup(false);
@@ -111,7 +111,32 @@ public class ResearchManager : MonoBehaviour
             Debug.Log("No timer available");
         }
     }
-
+    public void CompleteResearchInstantly()
+    {
+        if (SelectedResearch.RequirementsComplete())
+            {
+                if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
+                {
+                    if (Inventory.Instance.RemoveGems(SelectedResearch.InstantCompleteCost))
+                    {
+                        this.SelectedResearch.IncreaseLevel();
+                        ShowResearchPopup(false);
+                    }
+                    else
+                    {
+                        Debug.Log("Not enough gems");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Research already at max level");
+                }
+            }
+            else
+            {
+                Debug.Log("Research Requirements not met");
+            }
+    }
     public ResearchTimer GetAvailableResearchTimer()
     {
         for (int i = 0; i < ResearchTimers.Count; i++)
