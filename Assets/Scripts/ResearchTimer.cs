@@ -59,7 +59,6 @@ public class ResearchTimer : MonoBehaviour
             {
                 if (Inventory.Instance.RemoveGems(10 * this.Timer.TimeRemaining))
                 {
-                    //complete
                     CompleteResearch();
                 }
                 else
@@ -87,5 +86,4 @@ public class ResearchTimer : MonoBehaviour
         this.CurrentResearch = null;
         this.Timer.OnTimerComplete.RemoveAllListeners();
     }
-
 }
