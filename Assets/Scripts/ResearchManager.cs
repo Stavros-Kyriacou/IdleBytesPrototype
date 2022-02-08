@@ -134,28 +134,35 @@ public class ResearchManager : MonoBehaviour
     }
     public void CompleteResearchInstantly()
     {
-        if (SelectedResearch.RequirementsComplete())
+        if (!IsAlreadyResearching())
         {
-            if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
+            if (SelectedResearch.RequirementsComplete())
             {
-                if (Inventory.Instance.RemoveGems(SelectedResearch.InstantCompleteCost))
+                if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
                 {
-                    this.SelectedResearch.IncreaseLevel();
-                    ShowResearchPopup(false);
+                    if (Inventory.Instance.RemoveGems(SelectedResearch.InstantCompleteCost))
+                    {
+                        this.SelectedResearch.IncreaseLevel();
+                        ShowResearchPopup(false);
+                    }
+                    else
+                    {
+                        Debug.Log("Not enough gems");
+                    }
                 }
                 else
                 {
-                    Debug.Log("Not enough gems");
+                    Debug.Log("Research already at max level");
                 }
             }
             else
             {
-                Debug.Log("Research already at max level");
+                Debug.Log("Research Requirements not met");
             }
         }
         else
         {
-            Debug.Log("Research Requirements not met");
+            Debug.Log("That research is already being researched");
         }
     }
     public ResearchTimer GetAvailableResearchTimer()
