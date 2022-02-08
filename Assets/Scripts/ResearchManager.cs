@@ -8,8 +8,6 @@ public class ResearchManager : MonoBehaviour
 {
     private Research SelectedResearch;
     public List<Research> ResearchList;
-    public List<ResearchTimer> ResearchTimers;
-    public RectTransform ResearchPopupMenu;
     public float offset;
     public Vector2 Offscreen
     {
@@ -18,7 +16,16 @@ public class ResearchManager : MonoBehaviour
             return Vector2.up * offset;
         }
     }
+
+    [Header("Research Timers")]
+    public List<ResearchTimer> ResearchTimers;
+    public int TimerCost;
+    public TextMeshProUGUI TimerCostText;
+    private bool SecondTimerLocked = true;
+    public Button UnlockTimerButton;
+
     [Header("Research Popup Menu")]
+    public RectTransform ResearchPopupMenu;
     public TextMeshProUGUI TitleText;
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI DescriptionText;
@@ -28,7 +35,6 @@ public class ResearchManager : MonoBehaviour
     public Button CompleteNowButton;
     public List<TextMeshProUGUI> RequirementsTexts;
 
-
     private void Awake()
     {
         //set references on all researches
@@ -36,6 +42,14 @@ public class ResearchManager : MonoBehaviour
         {
             r.ResearchManager = this;
         }
+
+        //disable second research timer
+        this.ResearchTimers[1].gameObject.SetActive(false);
+        this.TimerCostText.text = $"Cost: {TimerCost} Gems";
+    }
+    private void Start()
+    {
+        UpdateConnectionLines();
     }
     public void ShowResearchPopup(bool visible)
     {
@@ -84,21 +98,28 @@ public class ResearchManager : MonoBehaviour
         {
             if (SelectedResearch.RequirementsComplete())
             {
-                if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
+                if (!IsAlreadyResearching())
                 {
-                    if (Inventory.Instance.RemoveScrap(SelectedResearch.ScrapCost))
+                    if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
                     {
-                        availableTimer.StartResearch(this.SelectedResearch);
-                        ShowResearchPopup(false);
+                        if (Inventory.Instance.RemoveScrap(SelectedResearch.ScrapCost))
+                        {
+                            availableTimer.StartResearch(this.SelectedResearch);
+                            ShowResearchPopup(false);
+                        }
+                        else
+                        {
+                            Debug.Log("Not enough scrap");
+                        }
                     }
                     else
                     {
-                        Debug.Log("Not enough scrap");
+                        Debug.Log("Research already at max level");
                     }
                 }
                 else
                 {
-                    Debug.Log("Research already at max level");
+                    Debug.Log("That research is already being researched");
                 }
             }
             else
@@ -114,28 +135,28 @@ public class ResearchManager : MonoBehaviour
     public void CompleteResearchInstantly()
     {
         if (SelectedResearch.RequirementsComplete())
+        {
+            if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
             {
-                if (SelectedResearch.CurrentLevel < SelectedResearch.MaxLevel)
+                if (Inventory.Instance.RemoveGems(SelectedResearch.InstantCompleteCost))
                 {
-                    if (Inventory.Instance.RemoveGems(SelectedResearch.InstantCompleteCost))
-                    {
-                        this.SelectedResearch.IncreaseLevel();
-                        ShowResearchPopup(false);
-                    }
-                    else
-                    {
-                        Debug.Log("Not enough gems");
-                    }
+                    this.SelectedResearch.IncreaseLevel();
+                    ShowResearchPopup(false);
                 }
                 else
                 {
-                    Debug.Log("Research already at max level");
+                    Debug.Log("Not enough gems");
                 }
             }
             else
             {
-                Debug.Log("Research Requirements not met");
+                Debug.Log("Research already at max level");
             }
+        }
+        else
+        {
+            Debug.Log("Research Requirements not met");
+        }
     }
     public ResearchTimer GetAvailableResearchTimer()
     {
@@ -143,10 +164,64 @@ public class ResearchManager : MonoBehaviour
         {
             if (ResearchTimers[i].Timer.IsAvailable)
             {
+                if (ResearchTimers[i] == ResearchTimers[1])
+                {
+                    if (this.SecondTimerLocked)
+                    {
+                        return null;
+                    }
+                }
                 return ResearchTimers[i];
             }
         }
         return null;
     }
-    //TODO: add  method for complete research instantly button
+    public void UnlockTimer()
+    {
+        if (this.SecondTimerLocked)
+        {
+            if (Inventory.Instance.RemoveGems(this.TimerCost))
+            {
+                this.ResearchTimers[1].gameObject.SetActive(true);
+                this.SecondTimerLocked = false;
+                this.UnlockTimerButton.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.Log("Second timer already purchased :)");
+        }
+    }
+    public bool IsAlreadyResearching()
+    {
+        if (ResearchTimers[0].CurrentResearch == SelectedResearch || ResearchTimers[1].CurrentResearch == SelectedResearch)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void UpdateConnectionLines()
+    {
+        for (int i = 0; i < ResearchList.Count; i++)
+        {
+            if (ResearchList[i].RequirementsComplete())
+            {
+                if (ResearchList[i].ConnectionLine != null)
+                {
+                    var temp = ResearchList[i].ConnectionLine.ConnectionLines[ResearchList[i].ConnectionLine.ConnectionTypeIndex];
+                    if (temp != null)
+                    {
+                        foreach (RectTransform child in temp)
+                        {
+                            var img = child.GetComponent<Image>();
+                            img.color = Color.green;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
