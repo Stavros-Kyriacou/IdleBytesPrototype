@@ -22,6 +22,7 @@ public class Research : MonoBehaviour
     [Tooltip("The level this research must be if it is a prerequisite for other researches")]
     public int MinLevel;
     public List<Research> ResearchRequirements;
+    public ConnectionLine ConnectionLine;
 
     [Header("References")]
     public ResearchManager ResearchManager;
@@ -58,6 +59,7 @@ public class Research : MonoBehaviour
         {
             this.CurrentLevel++;
             UpdateLevelProgressBar();
+            this.ResearchManager.UpdateConnectionLines();
         }
     }
     public void UpdateLevelProgressBar()
