@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance;
     public int Scrap;
     public int Gems;
+    public int PrestigeTokens;
 
     //[rows, columns]
     //[tier, level]
@@ -294,6 +295,26 @@ public class Inventory : MonoBehaviour
         if (amount <= this.Scrap)
         {
             this.Scrap -= amount;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void AddPrestigeTokens(int amount)
+    {
+        if (amount < 0)
+        {
+            amount *= -1;
+        }
+        this.PrestigeTokens += amount;
+    }
+    public bool RemovePrestigeTokens(int amount)
+    {
+        if (amount <= this.PrestigeTokens)
+        {
+            this.PrestigeTokens -= amount;
             return true;
         }
         else
