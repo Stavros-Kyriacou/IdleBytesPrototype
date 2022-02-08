@@ -70,6 +70,8 @@ Research
 - Remake the entire screen
 - Make it work with timer
 
+TODO: bugfix, do not allow instant complete of research if it is already being researched at a timer            COMPLETE
+
 
 Player Profile
 - Make the screen
@@ -80,10 +82,16 @@ Wifi
 - Make the screen
 - Upgrades
 
-Prestige
-- Make the screen
+Prestige Menu
+- Make the prestige screen
+- Update the $ earned this prestige
+- Update tokens to earn after prestiging (percentage of $ earned)
 - Add game reset function
-- Prestige Perk Points
+
+Prestige Perks
+- Make the prestige perk screen
+- Create perk prefab
+- Create perk tree with requirements (steal from research menu)
 
 
 Daily/Weekly Challenges
