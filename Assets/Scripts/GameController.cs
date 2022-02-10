@@ -9,19 +9,14 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     public double dollars;
     public double dollarsPerSec;
-    private double dollarsThisPrestige;
     public List<Computer> computerList;
+    public PrestigeMenu PrestigeMenu;
 
     [Header("Main UI")]
     public TextMeshProUGUI dollarsText;
     public TextMeshProUGUI dollarsPerSecText;
     public TextMeshProUGUI gemsText;
     [SerializeField] private Text dateTimeText;
-
-    [Header("Prestige Menu")]
-    public TextMeshProUGUI DollarsEarnedText;
-    public TextMeshProUGUI NewTokensText;
-
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -52,11 +47,10 @@ public class GameController : MonoBehaviour
     {
         var dollarsThisFrame = this.dollarsPerSec * Time.deltaTime;
         this.dollars += dollarsThisFrame;
-        this.dollarsThisPrestige += dollarsThisFrame;
+        PrestigeMenu.UpdateUI(dollarsThisFrame);
 
         this.dollarsText.text = $"${this.dollars.ToString("F0")}";
         this.dollarsPerSecText.text = $"${this.dollarsPerSec.ToString("F0")}/s";
-        this.DollarsEarnedText.text = $"Dollars this prestige: ${this.dollarsThisPrestige.ToString("F0")}";
     }
     public void CalculateDollarsPerSec()
     {
