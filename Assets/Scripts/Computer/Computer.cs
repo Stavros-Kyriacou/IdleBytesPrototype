@@ -38,6 +38,11 @@ public class Computer : MonoBehaviour
         GPU = new GPU();
         RAM = new RAM();
         HDD = new HDD();
+
+        this.CPU.Change(0, 0);
+        this.GPU.Change(0, 0);
+        this.RAM.Change(0, 0);
+        this.HDD.Change(0, 0);
     }
     public void Upgrade(int upgradeType)
     {
@@ -107,5 +112,40 @@ public class Computer : MonoBehaviour
         //if comp watts + current > max watts
         //cannot socket
 
+    }
+    public void Prestige()
+    {
+        //go through all the components
+        //if the tier and level of the component > 0
+        //remove it and put in inventory
+
+        //set all component tier and levels to 0
+
+        //set PSU and MOB to level 1
+
+        if (this.CPU.tier > 0 && this.CPU.level > 0)
+        {
+            Inventory.Instance.AddComponent(1, this.CPU.tier, this.CPU.level, 1);
+        }
+        if (this.GPU.tier > 0 && this.GPU.level > 0)
+        {
+            Inventory.Instance.AddComponent(2, this.GPU.tier, this.GPU.level, 1);
+        }
+        if (this.RAM.tier > 0 && this.RAM.level > 0)
+        {
+            Inventory.Instance.AddComponent(3, this.RAM.tier, this.RAM.level, 1);
+        }
+        if (this.HDD.tier > 0 && this.HDD.level > 0)
+        {
+            Inventory.Instance.AddComponent(4, this.HDD.tier, this.HDD.level, 1);
+        }
+
+        this.CPU.Change(0, 0);
+        this.GPU.Change(0, 0);
+        this.RAM.Change(0, 0);
+        this.HDD.Change(0, 0);
+
+        this.MOB = new Motherboard();
+        this.PSU = new PSU();
     }
 }
