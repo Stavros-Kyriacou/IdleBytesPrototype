@@ -23,14 +23,22 @@ public class GPU : SocketableComponent
     }
     public void CalculateStats()
     {
-        this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement); 
-        
-        int numLoops = ((tier - 1) * 10) + (level - 1);
-        float result = baseProductionBonus;
-        for (int i = 0; i < numLoops; i++)
+        if (this.tier == 0 && this.level == 0)
         {
-            result *= productionBonusIncrement;
+            this.watts = 0;
+            this.productionBonus = 0;
         }
-        this.productionBonus = result;
+        else
+        {
+            this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement);
+
+            int numLoops = ((tier - 1) * 10) + (level - 1);
+            float result = baseProductionBonus;
+            for (int i = 0; i < numLoops; i++)
+            {
+                result *= productionBonusIncrement;
+            }
+            this.productionBonus = result;
+        }
     }
 }

@@ -23,14 +23,22 @@ public class HDD : SocketableComponent
     }
     public void CalculateStats()
     {
-        this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement);
-
-        int numLoops = ((tier - 1) * 10) + (level - 1);
-        float result = this.baseOfflineProdBonus;
-        for (int i = 0; i < numLoops; i++)
+        if (this.tier == 0 && this.level == 0)
         {
-            result *= offlineProductionBonusIncrement;
+            this.watts = 0;
+            this.offlineProductionBonus = 0;
         }
-        this.offlineProductionBonus = result;
+        else
+        {
+            this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement);
+
+            int numLoops = ((tier - 1) * 10) + (level - 1);
+            float result = this.baseOfflineProdBonus;
+            for (int i = 0; i < numLoops; i++)
+            {
+                result *= offlineProductionBonusIncrement;
+            }
+            this.offlineProductionBonus = result;
+        }
     }
 }

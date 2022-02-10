@@ -15,7 +15,7 @@ public class RAM : SocketableComponent
         this.dollarsPerSec = this.baseDollarsPerSec;
         CalculateStats();
     }
-        public void Change(int tier, int level)
+    public void Change(int tier, int level)
     {
         this.tier = tier;
         this.level = level;
@@ -23,14 +23,22 @@ public class RAM : SocketableComponent
     }
     public void CalculateStats()
     {
-        this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement); 
-
-        int numLoops = ((tier - 1) * 10) + (level - 1);
-        float result = (float)baseDollarsPerSec;
-        for (int i = 0; i < numLoops; i++)
+        if (this.tier == 0 && this.level == 0)
         {
-            result *= dollarsPerSecIncrement;
+            this.watts = 0;
+            this.dollarsPerSec = 0;
         }
-        this.dollarsPerSec = result;
+        else
+        {
+            this.watts = ((tier - 1) * (this.wattsIncrement * 10)) + (level * this.wattsIncrement);
+
+            int numLoops = ((tier - 1) * 10) + (level - 1);
+            float result = (float)baseDollarsPerSec;
+            for (int i = 0; i < numLoops; i++)
+            {
+                result *= dollarsPerSecIncrement;
+            }
+            this.dollarsPerSec = result;
+        }
     }
 }
