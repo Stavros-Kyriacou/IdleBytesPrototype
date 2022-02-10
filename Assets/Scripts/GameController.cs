@@ -67,4 +67,13 @@ public class GameController : MonoBehaviour
         gemsText.text = $"Gems: {Inventory.Instance.Gems}";
 
     }
+    public void Prestige()
+    {
+        this.dollars = 0;
+        
+        foreach (var pc in computerList)
+        {
+            pc.Prestige();
+        }
+    }
 }

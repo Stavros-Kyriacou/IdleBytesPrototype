@@ -7,12 +7,12 @@ using TMPro;
 public class VendingMachine : MonoBehaviour
 {
     public static VendingMachine Instance;
-    public int level;
-    public int maxLevel = 20;
-    public double upgradeCost;
-    public float upgradeCostIncrement;
-    public float hungerBonus = 1.1f;
-    public float hungerBonusIncrement = 0.1f;
+    private int level = 1;
+    private int maxLevel = 20;
+    private double upgradeCost = 100;
+    private float upgradeCostIncrement = 1.2f;
+    private float hungerBonus = 1.1f;
+    private float hungerBonusIncrement = 0.1f;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI upgradeCostText;
     public TextMeshProUGUI hungerBonusText;
@@ -65,5 +65,13 @@ public class VendingMachine : MonoBehaviour
         levelText.text = $"Level: {level}";
         upgradeCostText.text = $"Upgrade Cost: ${upgradeCost.ToString("F0")}";
         hungerBonusText.text = $"Hunger Bonus: {hungerBonus}";
+    }
+    public void Prestige()
+    {
+        this.level = 1;
+        this.hungerBonus = 1.1f;
+        this.upgradeCost = 100;
+        
+        this.UpdateUI();
     }
 }
