@@ -26,14 +26,14 @@ public class ResearchTimer : MonoBehaviour
         TimeSpan time = TimeSpan.FromSeconds(CurrentResearch.DurationInSeconds);
         TimeRemainingText.text = time.ToString(@"hh\:mm\:ss");
         CompleteNowCostText.text = $"{10 * CurrentResearch.DurationInSeconds} Gems";
-        ProgressBar.GetCurrentFill(0, CurrentResearch.DurationInSeconds);
+        ProgressBar.UpdateFill(0, CurrentResearch.DurationInSeconds);
 
         Timer.StartTimer(CurrentResearch.DurationInSeconds);
         Timer.OnTimerComplete.AddListener(CompleteResearch);
     }
     public void UpdateTimeRemaining()
     {
-        ProgressBar.GetCurrentFill(CurrentResearch.DurationInSeconds - Timer.TimeRemaining, CurrentResearch.DurationInSeconds);
+        ProgressBar.UpdateFill(CurrentResearch.DurationInSeconds - Timer.TimeRemaining, CurrentResearch.DurationInSeconds);
         TimeSpan time = TimeSpan.FromSeconds(Timer.TimeRemaining);
         TimeRemainingText.text = time.ToString(@"hh\:mm\:ss");
         CompleteNowCostText.text = $"{10 * this.Timer.TimeRemaining} Gems";
@@ -82,7 +82,7 @@ public class ResearchTimer : MonoBehaviour
         this.TitleText.text = "";
         this.TimeRemainingText.text = "00:00:00";
         this.CompleteNowCostText.text = "0 Gems";
-        this.ProgressBar.GetCurrentFill(0, 1);
+        this.ProgressBar.UpdateFill(0, 1);
         this.CurrentResearch = null;
         this.Timer.OnTimerComplete.RemoveAllListeners();
     }

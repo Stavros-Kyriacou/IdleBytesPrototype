@@ -34,7 +34,7 @@ public class Gamer : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             timeRemaining--;
-            progressBar.GetCurrentFill(timeRemaining, maxDepletionTime);
+            progressBar.UpdateFill(timeRemaining, maxDepletionTime);
             if (timeRemaining <= 0)
             {
                 StopCoroutine("DepleteHunger");
@@ -50,7 +50,7 @@ public class Gamer : MonoBehaviour
         GameController.Instance.dollars += money;
 
         timeRemaining = maxDepletionTime;
-        progressBar.GetCurrentFill(timeRemaining, maxDepletionTime);
+        progressBar.UpdateFill(timeRemaining, maxDepletionTime);
         StartCoroutine("DepleteHunger");
     }
 }

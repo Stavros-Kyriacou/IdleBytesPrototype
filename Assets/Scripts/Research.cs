@@ -51,7 +51,7 @@ public class Research : MonoBehaviour
         }
         this.TitleText.text = Title;
         this.LevelText.text = $"{this.CurrentLevel}/{this.MaxLevel}";
-        this.ProgressBar.GetCurrentFill(this.CurrentLevel, this.MaxLevel);
+        this.ProgressBar.UpdateFill(this.CurrentLevel, this.MaxLevel);
     }
     public void IncreaseLevel()
     {
@@ -65,7 +65,7 @@ public class Research : MonoBehaviour
     public void UpdateLevelProgressBar()
     {
         this.LevelText.text = $"{this.CurrentLevel}/{this.MaxLevel}";
-        this.ProgressBar.GetCurrentFill(this.CurrentLevel, this.MaxLevel);
+        this.ProgressBar.UpdateFill(this.CurrentLevel, this.MaxLevel);
     }
     public bool RequirementsComplete()
     {

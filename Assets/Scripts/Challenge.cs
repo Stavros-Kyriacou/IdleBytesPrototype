@@ -32,7 +32,7 @@ public class Challenge : MonoBehaviour
         }
 
         Debug.Log("increase progress");
-        progressBar.GetCurrentFill(currentStep, maxSteps);
+        progressBar.UpdateFill(currentStep, maxSteps);
         UpdateText();
         if (CheckCompleted() && !rewardCollected)
         {

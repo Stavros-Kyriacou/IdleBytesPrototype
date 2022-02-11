@@ -258,7 +258,7 @@ public class WorkbenchTierMenu : MonoBehaviour
 
             chanceTexts[i].text = $"Lvl {i + 1}: {chance.ToString("F2")}%";
 
-            progressBars[i].GetCurrentFill(weights[i], totalWeight);
+            progressBars[i].UpdateFill(weights[i], totalWeight);
         }
         scrapCostText.text = $"Cost: {ScrapCost} Scrap";
         TimeSpan time = TimeSpan.FromSeconds((5 * craftingComponents[0, 0]) + 10);
@@ -349,7 +349,7 @@ public class WorkbenchTierMenu : MonoBehaviour
         for (int i = 0; i < chanceTexts.Count; i++)
         {
             chanceTexts[i].text = $"Level {i}: 0%";
-            progressBars[i].GetCurrentFill(0, 1);
+            progressBars[i].UpdateFill(0, 1);
         }
         craftingTimeText.text = "00:00:00";
         scrapCostText.text = "Cost: 0 Scrap";
