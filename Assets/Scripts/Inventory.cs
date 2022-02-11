@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI effectText;
     public TextMeshProUGUI wattsText;
     public TextMeshProUGUI scrapAmounText;
+    [Header("Events")]
+    public UnityEvent OnPrestigeTokensChanged;
 
     private void Awake()
     {
@@ -309,12 +312,14 @@ public class Inventory : MonoBehaviour
             amount *= -1;
         }
         this.PrestigeTokens += amount;
+        this.OnPrestigeTokensChanged.Invoke();
     }
     public bool RemovePrestigeTokens(int amount)
     {
         if (amount <= this.PrestigeTokens)
         {
             this.PrestigeTokens -= amount;
+            this.OnPrestigeTokensChanged.Invoke();
             return true;
         }
         else
