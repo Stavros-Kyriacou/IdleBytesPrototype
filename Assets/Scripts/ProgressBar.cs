@@ -15,7 +15,7 @@ public class ProgressBar : MonoBehaviour
     {
         // GetCurrentFill();
     }
-    public void GetCurrentFill(int min, int max)
+    public void UpdateFill(int min, int max)
     {
         // float fillAmount = (float)current / (float)maximum;
         // mask.fillAmount = fillAmount;
