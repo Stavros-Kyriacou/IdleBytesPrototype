@@ -27,4 +27,14 @@ public class Test : MonoBehaviour
         var timer = tierMenu.CraftingSlots[0];
         Debug.Log($"Timer 1 available: {timer.TimerAvailable}");
     }
+    public void ComponentTest()
+    {
+        var cpu = new CPU();
+        cpu.Change(0,0);
+
+        Debug.Log("Tier: "+ cpu.tier);
+        Debug.Log("Level: "+ cpu.level);
+        Debug.Log("Watts: "+ cpu.watts);
+        Debug.Log("$/s: "+ cpu.dollarsPerSec);
+    }
 }
