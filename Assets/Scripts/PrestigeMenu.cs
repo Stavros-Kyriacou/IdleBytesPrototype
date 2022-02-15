@@ -12,7 +12,10 @@ public class PrestigeMenu : MonoBehaviour
     public TextMeshProUGUI TokensThisPrestigeText;
     private double DollarsThisPrestige;
     private int TokensToEarn;
-
+    private void Start()
+    {
+        Inventory.Instance.OnPrestigeTokensChanged.AddListener(UpdateTokensUI);
+    }
     public void UpdateUI(double dollarsThisFrame)
     {
         this.DollarsThisPrestige += dollarsThisFrame;
@@ -35,6 +38,9 @@ public class PrestigeMenu : MonoBehaviour
 
         this.DollarsThisPrestige = 0;
         this.TokensToEarn = 0;
+    }
+    public void UpdateTokensUI()
+    {
         this.PrestigeTokensText.text = $"Prestige Tokens: {Inventory.Instance.PrestigeTokens}";
     }
 }
