@@ -19,7 +19,7 @@ public class LootBoxManager : MonoBehaviour
     private int[] tier3ComponentWeights = { 500, 400, 300, 80, 30, 0, 0, 0, 0, 0 };
     private int[] tier4ComponentWeights = { 0, 0, 300, 300, 300, 300, 300, 15, 0, 0 };
     private int[] tier5ComponentWeights = { 0, 0, 400, 400, 350, 300, 300, 15, 1, 0 };
-    private void OnEnable()
+    private void Start()
     {
         UpdateText();
     }
