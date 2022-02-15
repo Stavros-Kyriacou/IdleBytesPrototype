@@ -48,6 +48,7 @@ public class PerkMenu : MonoBehaviour
         this.PerkCostText.text = $"Cost: {selectedPerk.Cost} Tokens";
 
         this.SelectedPerk = selectedPerk;
+        ShowBuyPerkButton();
     }
     public void BuyPerk()
     {
@@ -73,6 +74,17 @@ public class PerkMenu : MonoBehaviour
         else
         {
             Debug.Log("Perk not selected");
+        }
+    }
+    public void ShowBuyPerkButton()
+    {
+        if (this.SelectedPerk.currentLevel >= this.SelectedPerk.MaxLevel)
+        {
+            this.BuyPerkButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.BuyPerkButton.gameObject.SetActive(true);
         }
     }
 }
