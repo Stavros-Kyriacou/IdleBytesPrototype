@@ -67,10 +67,14 @@ LEVEL UPGRADE MENU
 
 
 Research
-- Remake the entire screen
-- Make it work with timer
+- Remake the entire screen                                                                                      COMPLETE
+- Make it work with timer                                                                                       COMPLETE
 
 TODO: bugfix, do not allow instant complete of research if it is already being researched at a timer            COMPLETE
+
+
+Component Selection Menu
+- Make the apply button add/remove components correctly from the inventory
 
 
 Player Profile
@@ -83,15 +87,14 @@ Wifi
 - Upgrades
 
 Prestige Menu
-- Make the prestige screen
-- Update the $ earned this prestige
-- Update tokens to earn after prestiging (percentage of $ earned)
-- Add game reset function
+- Make the prestige screen                                                                              COMPLETE
+- Update the $ earned this prestige                                                                     COMPLETE
+- Update tokens to earn after prestiging (percentage of $ earned)                                       COMPLETE
+- Add game reset function                                                                               MOSTLY COMPLETE (need to update once WIfi and new computer purchasing has been added)
 
 Prestige Perks
-- Make the prestige perk screen
-- Create perk prefab
-- Create perk tree with requirements (steal from research menu)
+- Make the prestige perk screen                                                                         COMPLETE
+- Create perk prefab                                                                                    COMPLETE                                                                 
 
 
 Daily/Weekly Challenges
@@ -122,3 +125,9 @@ Ads
 Make the game 3D
 - import models
 - camera controls
+- improve lighting and shadow resultion
+- import better models
+- add boundaries for camera movement
+- Look for references that havent been set
+- Disable OnMouseDown events when a menu is open (for computers and vending machine) use a bool on the MenuController (IsMenuOpen)
+- Disable camera movemnt when a menu is open
