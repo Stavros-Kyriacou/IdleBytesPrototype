@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class VendingMachine : MonoBehaviour
 {
+    public UnityEvent OnClick;
     public static VendingMachine Instance;
     private int level = 1;
     private int maxLevel = 20;
@@ -71,7 +73,12 @@ public class VendingMachine : MonoBehaviour
         this.level = 1;
         this.hungerBonus = 1.1f;
         this.upgradeCost = 100;
-        
+
         this.UpdateUI();
+    }
+    private void OnMouseUp()
+    {
+        //if !MenuController.IsMenuOpen
+        OnClick.Invoke();
     }
 }
