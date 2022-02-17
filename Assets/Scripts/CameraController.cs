@@ -12,6 +12,7 @@ class CameraController : MonoBehaviour
     public bool Rotate;
     public bool Zoom;
     protected Plane Plane;
+    public float xMin, xMax, zMin, zMax;
 
     private void Awake()
     {
@@ -36,6 +37,11 @@ class CameraController : MonoBehaviour
             Delta1 = PlanePositionDelta(Input.GetTouch(0));
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
                 Camera.transform.Translate(Delta1, Space.World);
+                
+                //clamp the camera x and z position
+                var xPos = Mathf.Clamp(Camera.transform.position.x, xMin, xMax);
+                var zPos = Mathf.Clamp(Camera.transform.position.z, zMin, zMax);
+                Camera.transform.position = new Vector3(xPos, Camera.transform.position.y, zPos);
         }
 
         //Pinch
