@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Computer : MonoBehaviour
 {
-    public UnityEvent OnClick;
     //Computer
     [HideInInspector] public int level = 1;
     [HideInInspector] public double dollarsPerSec = 10;
@@ -149,10 +147,5 @@ public class Computer : MonoBehaviour
 
         this.MOB = new Motherboard();
         this.PSU = new PSU();
-    }
-    private void OnMouseUp() {
-        OnClick.Invoke();
-        //open the computer stats menu
-        //computer handler => Select(this)
     }
 }
