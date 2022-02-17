@@ -83,8 +83,18 @@ Player Profile
 
 
 Wifi
-- Make the screen
-- Upgrades
+- Make the UI
+- Make wifi script
+    - Allow for upgrades with incrementing cost
+    - Wifi speed production bonus and apply bonus to gamecontroller
+    - Every few levels increase bandwidth to allow new computer purchase
+- Make wifi model with interactable object component
+
+
+Purchase new computers
+- Check if there is enough bandwidth
+- 
+
 
 Prestige Menu
 - Make the prestige screen                                                                              COMPLETE
@@ -124,10 +134,12 @@ Ads
 
 Make the game 3D
 - import models
-- camera controls
+- camera controls                                                                       COMPLETE
 - improve lighting and shadow resultion
 - import better models
-- add boundaries for camera movement
-- Look for references that havent been set
-- Disable OnMouseDown events when a menu is open (for computers and vending machine) use a bool on the MenuController (IsMenuOpen)
-- Disable camera movemnt when a menu is open
+- add boundaries for camera movement                                                    COMPLETE
+- Look for references that havent been set                                              COMPLETE
+- Disable OnMouseDown events when a menu is open 
+  (for computers and vending machine) use a bool 
+  on the MenuController (IsMenuOpen)                                                    COMPLETE   
+- Disable camera movemnt when a menu is open                                            COMPLETE
