@@ -21,6 +21,7 @@ class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (MenuController.Instance.IsMenuOpen) return;
 
         //Update Plane
         if (Input.touchCount >= 1)
