@@ -76,4 +76,16 @@ public class GameController : MonoBehaviour
             pc.Prestige();
         }
     }
+    public bool RemoveDollars(double amount)
+    {
+        if (amount <= this.dollars)
+        {
+            this.dollars -= amount;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
