@@ -83,17 +83,20 @@ Player Profile
 
 
 Wifi
-- Make the UI
+- Make the                                                                      COMPLETE
 - Make wifi script
-    - Allow for upgrades with incrementing cost
+    - Allow for upgrades with incrementing cost                                 COMPLETE
     - Wifi speed production bonus and apply bonus to gamecontroller
-    - Every few levels increase bandwidth to allow new computer purchase
-- Make wifi model with interactable object component
+    - Every few levels increase bandwidth to allow new computer purchase        COMPLETE
+- Make wifi model with interactable object component                            COMPLETE
 
 
 Purchase new computers
-- Check if there is enough bandwidth
+- Check if there is enough bandwidth                                            COMPLETE
 - 
+
+Gamer Hunger
+- On the computer stats screen, the gamer hunger bar doesnt change for the selected computer, need to make it work with only the currently selected computer
 
 
 Prestige Menu
