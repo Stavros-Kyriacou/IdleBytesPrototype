@@ -59,7 +59,10 @@ public class GameController : MonoBehaviour
 
         foreach (Computer c in computerList)
         {
-            this.dollarsPerSec += c.totalDPS;
+            if (c.IsPurchased)
+            {
+                this.dollarsPerSec += c.totalDPS;
+            }
         }
     }
     public void UpdateGemsText()
@@ -70,7 +73,7 @@ public class GameController : MonoBehaviour
     public void Prestige()
     {
         this.dollars = 0;
-        
+
         foreach (var pc in computerList)
         {
             pc.Prestige();
