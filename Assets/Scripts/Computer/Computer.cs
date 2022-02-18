@@ -5,6 +5,9 @@ using UnityEngine;
 public class Computer : MonoBehaviour
 {
     //Computer
+    public bool IsPurchased;
+    public GameObject ComputerModel;
+    public GameObject PurchaseModel;
     [HideInInspector] public int level = 1;
     [HideInInspector] public double dollarsPerSec = 10;
     public double totalDPS
