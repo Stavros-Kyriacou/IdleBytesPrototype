@@ -49,11 +49,11 @@ public class Wifi : MonoBehaviour
             //increment upgrade cost
 
             //increase supported computers if possible
-            
+
             this.Level++;
             this.UpgradeCost *= this.UpgradeCostIncrement;
 
-            if ((this.Level % 5) == 0)
+            if ((this.Level % 5) == 0 && this.SupportedComputers < this.MaxComputers)
             {
                 this.SupportedComputers = (this.Level / 5) + 1;
             }
